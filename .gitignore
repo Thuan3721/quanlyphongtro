@@ -1,0 +1,35 @@
+## Ignore Visual Studio temporary files, build results, and
+## .vs folder
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+
+# Visual Studio 2022 specific
+.vs/
+*.vcxproj.user
+*.vcxproj.filters
+
+# Database files
+*.mdf
+*.ldf
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+*.log
+
+# OS generated files
+Thumbs.db
+.DS_Store
