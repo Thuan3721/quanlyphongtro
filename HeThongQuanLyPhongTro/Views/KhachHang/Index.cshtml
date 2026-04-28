@@ -1,0 +1,47 @@
+@model IEnumerable<HeThongQuanLyPhongTro.Models.KhachHang>
+
+@{
+    ViewData["Title"] = "Danh sách khách hàng";
+}
+
+<h2>Danh sách khách hàng</h2>
+
+<p><a asp-action="Create" class="btn btn-primary">Tạo khách hàng mới</a></p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Mã khách hàng</th>
+            <th>Họ tên</th>
+            <th>CCCD</th>
+            <th>SDT</th>
+            <th>Địa chỉ</th>
+            <th>Giới tính</th>
+            <th>Ngày sinh</th>
+            <th>Email</th>
+            <th>Mã tài khoản</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>@item.MaKhachHang</td>
+            <td>@item.HoTen</td>
+            <td>@item.CCCD</td>
+            <td>@item.SDT</td>
+            <td>@item.DiaChi</td>
+            <td>@item.GioiTinh</td>
+            <td>@(item.NgaySinh?.ToString("yyyy-MM-dd"))</td>
+            <td>@item.Email</td>
+            <td>@item.MaTaiKhoan</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Xem</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Xóa khách hàng này?');">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

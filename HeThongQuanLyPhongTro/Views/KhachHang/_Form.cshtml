@@ -1,0 +1,60 @@
+@model HeThongQuanLyPhongTro.Models.KhachHang
+
+<div class="mb-3">
+    <label asp-for="MaKhachHang" class="form-label"></label>
+    <input asp-for="MaKhachHang" class="form-control" />
+    <span asp-validation-for="MaKhachHang" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="HoTen" class="form-label"></label>
+    <input asp-for="HoTen" class="form-control" />
+    <span asp-validation-for="HoTen" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="CCCD" class="form-label"></label>
+    <input asp-for="CCCD" class="form-control" />
+    <span asp-validation-for="CCCD" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="SDT" class="form-label"></label>
+    <input asp-for="SDT" class="form-control" />
+    <span asp-validation-for="SDT" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="DiaChi" class="form-label"></label>
+    <input asp-for="DiaChi" class="form-control" />
+    <span asp-validation-for="DiaChi" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="GioiTinh" class="form-label"></label>
+    <select asp-for="GioiTinh" class="form-select">
+        <option value="">-- Chọn --</option>
+        <option>Nam</option>
+        <option>Nữ</option>
+        <option>Khác</option>
+    </select>
+    <span asp-validation-for="GioiTinh" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="NgaySinh" class="form-label"></label>
+    <input asp-for="NgaySinh" class="form-control" type="date" />
+    <span asp-validation-for="NgaySinh" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Email" class="form-label"></label>
+    <input asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="MaTaiKhoan" class="form-label"></label>
+    <input asp-for="MaTaiKhoan" class="form-control" type="number" />
+    <span asp-validation-for="MaTaiKhoan" class="text-danger"></span>
+</div>

@@ -229,3 +229,4 @@ E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\HeThongQuanLyPhongTro.pdb
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\HeThongQuanLyPhongTro.genruntimeconfig.cache
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\ref\HeThongQuanLyPhongTro.dll
+E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\HeThongQuanLyPhongTro.sourcelink.json

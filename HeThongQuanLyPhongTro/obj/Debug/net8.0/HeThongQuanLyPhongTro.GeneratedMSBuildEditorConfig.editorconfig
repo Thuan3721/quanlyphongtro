@@ -42,6 +42,46 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[E:/Hệ Thống QL Phòng Trọ/HeThongQuanLyPhongTro/HeThongQuanLyPhongTro/Views/HopDong/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9wRG9uZ1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Hệ Thống QL Phòng Trọ/HeThongQuanLyPhongTro/HeThongQuanLyPhongTro/Views/HopDong/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9wRG9uZ1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Hệ Thống QL Phòng Trọ/HeThongQuanLyPhongTro/HeThongQuanLyPhongTro/Views/HopDong/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9wRG9uZ1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Hệ Thống QL Phòng Trọ/HeThongQuanLyPhongTro/HeThongQuanLyPhongTro/Views/HopDong/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9wRG9uZ1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Hệ Thống QL Phòng Trọ/HeThongQuanLyPhongTro/HeThongQuanLyPhongTro/Views/HopDong/_Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9wRG9uZ1xfRm9ybS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Hệ Thống QL Phòng Trọ/HeThongQuanLyPhongTro/HeThongQuanLyPhongTro/Views/KhachHang/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hhY2hIYW5nXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Hệ Thống QL Phòng Trọ/HeThongQuanLyPhongTro/HeThongQuanLyPhongTro/Views/KhachHang/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hhY2hIYW5nXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Hệ Thống QL Phòng Trọ/HeThongQuanLyPhongTro/HeThongQuanLyPhongTro/Views/KhachHang/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hhY2hIYW5nXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Hệ Thống QL Phòng Trọ/HeThongQuanLyPhongTro/HeThongQuanLyPhongTro/Views/KhachHang/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hhY2hIYW5nXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Hệ Thống QL Phòng Trọ/HeThongQuanLyPhongTro/HeThongQuanLyPhongTro/Views/KhachHang/_Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hhY2hIYW5nXF9Gb3JtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [E:/Hệ Thống QL Phòng Trọ/HeThongQuanLyPhongTro/HeThongQuanLyPhongTro/Views/Phong/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGhvbmdcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
