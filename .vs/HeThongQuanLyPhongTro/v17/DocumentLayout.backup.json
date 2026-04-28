@@ -1,0 +1,401 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\views\\dashboard\\khachdashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:views\\dashboard\\khachdashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\views\\dashboard\\admindashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:views\\dashboard\\admindashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\views\\shared\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:views\\shared\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\controllers\\phongcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:controllers\\phongcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\controllers\\admincontrollerbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:controllers\\admincontrollerbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\controllers\\basecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:controllers\\basecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\models\\taikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:models\\taikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\views\\phong\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:views\\phong\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\views\\phong\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:views\\phong\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\views\\phong\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:views\\phong\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\models\\phong.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:models\\phong.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|c:\\\u0111\u1ED3 \u00E1n\\hethongquanlyphongtro\\hethongquanlyphongtro.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{FA6DE491-AF32-4CD4-8706-E6006070FF8C}|HeThongQuanLyPhongTro.csproj|solutionrelative:hethongquanlyphongtro.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "KhachDashboard.cshtml",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Dashboard\\KhachDashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dashboard\\KhachDashboard.cshtml",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Dashboard\\KhachDashboard.cshtml",
+              "RelativeToolTip": "Views\\Dashboard\\KhachDashboard.cshtml",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAowBoAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-26T18:07:56.264Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AdminDashboard.cshtml",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Dashboard\\AdminDashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dashboard\\AdminDashboard.cshtml",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Dashboard\\AdminDashboard.cshtml",
+              "RelativeToolTip": "Views\\Dashboard\\AdminDashboard.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAowB8AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-26T18:07:29.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DashboardController.cs",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Controllers\\DashboardController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DashboardController.cs",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Controllers\\DashboardController.cs",
+              "RelativeToolTip": "Controllers\\DashboardController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T18:04:43.908Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "Controllers\\LoginController.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAowC4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T17:51:06.087Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Error.cshtml",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Shared\\Error.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\Error.cshtml",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Shared\\Error.cshtml",
+              "RelativeToolTip": "Views\\Shared\\Error.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-26T18:04:44.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PhongController.cs",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Controllers\\PhongController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PhongController.cs",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Controllers\\PhongController.cs",
+              "RelativeToolTip": "Controllers\\PhongController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T16:39:42.173Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AdminControllerBase.cs",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Controllers\\AdminControllerBase.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdminControllerBase.cs",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Controllers\\AdminControllerBase.cs",
+              "RelativeToolTip": "Controllers\\AdminControllerBase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T17:59:30.332Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BaseController.cs",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Controllers\\BaseController.cs",
+              "RelativeDocumentMoniker": "Controllers\\BaseController.cs",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Controllers\\BaseController.cs",
+              "RelativeToolTip": "Controllers\\BaseController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T17:55:09.235Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAowCUAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T16:09:54.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Login\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Login\\Index.cshtml",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Login\\Index.cshtml",
+              "RelativeToolTip": "Views\\Login\\Index.cshtml",
+              "ViewState": "AgIAABAAAAAAAAAAAAAowCYAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-26T17:52:21.114Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T16:08:11.066Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "TaiKhoan.cs",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Models\\TaiKhoan.cs",
+              "RelativeDocumentMoniker": "Models\\TaiKhoan.cs",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Models\\TaiKhoan.cs",
+              "RelativeToolTip": "Models\\TaiKhoan.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T16:05:59.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Phong\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Phong\\Index.cshtml",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Phong\\Index.cshtml",
+              "RelativeToolTip": "Views\\Phong\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-26T16:40:48.147Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Phong\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Phong\\Edit.cshtml",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Phong\\Edit.cshtml",
+              "RelativeToolTip": "Views\\Phong\\Edit.cshtml",
+              "ViewState": "AgIAABoAAAAAAAAAAAAowDAAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-26T17:21:25.197Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-26T17:16:07.268Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-26T17:10:14.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Phong\\Create.cshtml",
+              "RelativeDocumentMoniker": "Views\\Phong\\Create.cshtml",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\Phong\\Create.cshtml",
+              "RelativeToolTip": "Views\\Phong\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-26T16:41:35.594Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-26T17:12:47.528Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Phong.cs",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Models\\Phong.cs",
+              "RelativeDocumentMoniker": "Models\\Phong.cs",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\Models\\Phong.cs",
+              "RelativeToolTip": "Models\\Phong.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T16:28:27.454Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-26T16:02:56.664Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "HeThongQuanLyPhongTro",
+              "DocumentMoniker": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\HeThongQuanLyPhongTro.csproj",
+              "RelativeDocumentMoniker": "HeThongQuanLyPhongTro.csproj",
+              "ToolTip": "C:\\\u0110\u1ED2 \u00C1N\\HeThongQuanLyPhongTro\\HeThongQuanLyPhongTro.csproj*",
+              "RelativeToolTip": "HeThongQuanLyPhongTro.csproj*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-04-26T16:00:00.42Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

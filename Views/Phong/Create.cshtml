@@ -1,0 +1,48 @@
+﻿@model HeThongQuanLyPhongTro.Models.Phong
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<div class="max-w-lg mx-auto bg-white p-6 rounded shadow mt-10">
+    <h2 class="text-2xl font-bold mb-6">Thêm Phòng</h2>
+
+    <form method="post" class="space-y-4">
+
+        <div>
+            <label class="block font-medium">Tên Phòng</label>
+            <input asp-for="TenPhong" class="w-full border rounded px-3 py-2" />
+            <span asp-validation-for="TenPhong" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label class="block font-medium">Giá Phòng</label>
+            <input asp-for="GiaPhong" class="w-full border rounded px-3 py-2" />
+            <span asp-validation-for="GiaPhong" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label class="block font-medium">Diện Tích</label>
+            <input asp-for="DienTich" class="w-full border rounded px-3 py-2" />
+            <span asp-validation-for="DienTich" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label class="block font-medium">Trạng Thái</label>
+            <select asp-for="TrangThai" class="w-full border rounded px-3 py-2">
+                <option value="">-- Chọn trạng thái --</option>
+                <option value="Trống">Trống</option>
+                <option value="Đã thuê">Đã thuê</option>
+                <option value="Sửa chữa">Sửa chữa</option>
+            </select>
+            <span asp-validation-for="TrangThai" class="text-red-500 text-sm"></span>
+        </div>
+
+        <button type="submit"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+            Lưu
+        </button>
+    </form>
+</div>
