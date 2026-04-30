@@ -252,4 +252,13 @@ C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\runtimes\win\lib\net7.0\Micr
 C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+C:\ĐỒ ÁN\HeThongQuanLyPhongTro\obj\Debug\net8.0\HeThongQuanLyPhongTro.sourcelink.json
+C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\EPPlus.dll
+C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\EPPlus.Interfaces.dll
+C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Json.dll
+C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
+C:\ĐỒ ÁN\HeThongQuanLyPhongTro\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\ĐỒ ÁN\HeThongQuanLyPhongTro\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
