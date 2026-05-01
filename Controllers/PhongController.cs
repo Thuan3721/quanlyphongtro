@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using OfficeOpenXml;
 using System.IO;
 using System.Linq;
-
+// ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 namespace HeThongQuanLyPhongTro.Controllers
 {
     public class PhongController : Controller
