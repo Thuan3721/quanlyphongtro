@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace HeThongQuanLyPhongTro.Models;
+
+public partial class ThanhToan
+{
+    public int MaThanhToan { get; set; }
+
+    public int MaHoaDon { get; set; }
+
+    public decimal SoTien { get; set; }
+
+    public DateTime? NgayThanhToan { get; set; }
+
+    public string? NoiDungChuyenKhoan { get; set; }
+
+    public string? TrangThai { get; set; }
+
+    public virtual HoaDon MaHoaDonNavigation { get; set; } = null!;
+}

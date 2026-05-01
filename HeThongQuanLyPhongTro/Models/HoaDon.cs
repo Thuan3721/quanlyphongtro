@@ -1,46 +1,27 @@
-namespace HeThongQuanLyPhongTro.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace HeThongQuanLyPhongTro.Models;
+
+public partial class HoaDon
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
+    public int MaHoaDon { get; set; }
 
-    public class HoaDon
-    {
-        public int Id { get; set; }
+    public int MaHopDong { get; set; }
 
-        [Required]
-        [Display(Name = "Mã hóa đơn")]
-        public string MaHoaDon { get; set; }
+    public int Thang { get; set; }
 
-        [Required]
-        [Display(Name = "Mã hợp đồng")]
-        public string MaHopDong { get; set; }
+    public int Nam { get; set; }
 
-        [Required]
-        [Range(1, 12)]
-        [Display(Name = "Tháng")]
-        public int Thang { get; set; }
+    public decimal? TongTien { get; set; }
 
-        [Required]
-        [Range(2000, 3000)]
-        [Display(Name = "Năm")]
-        public int Nam { get; set; }
+    public string? TrangThai { get; set; }
 
-        [Display(Name = "Tổng tiền (VNĐ)")]
-        [DataType(DataType.Currency)]
-        public decimal TongTien { get; set; }
+    public DateTime? NgayTao { get; set; }
 
-        [Display(Name = "Trạng thái thanh toán")]
-        public string TrangThaiThanhToan { get; set; }
+    public virtual ICollection<ChiTietHoaDon> ChiTietHoaDons { get; set; } = new List<ChiTietHoaDon>();
 
-        [Display(Name = "Ngày thanh toán")]
-        [DataType(DataType.Date)]
-        public DateTime? NgayThanhToan { get; set; }
+    public virtual HopDong MaHopDongNavigation { get; set; } = null!;
 
-        [Display(Name = "Nội dung thanh toán")]
-        public string NoiDungThanhToan { get; set; }
-
-        [Display(Name = "Ngày tạo")]
-        [DataType(DataType.DateTime)]
-        public DateTime NgayTao { get; set; } = DateTime.Now;
-    }
+    public virtual ICollection<ThanhToan> ThanhToans { get; set; } = new List<ThanhToan>();
 }

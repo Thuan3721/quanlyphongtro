@@ -1,38 +1,33 @@
-namespace HeThongQuanLyPhongTro.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace HeThongQuanLyPhongTro.Models;
+
+public partial class HopDong
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
+    public int MaHopDong { get; set; }
 
-    public class HopDong
-    {
-        public int Id { get; set; }
+    public int MaPhong { get; set; }
 
-        [Required]
-        [Display(Name = "Mã hợp đồng")]
-        public string MaHopDong { get; set; }
+    public int MaKhachHang { get; set; }
 
-        [Required]
-        [Display(Name = "Mã khách hàng")]
-        public string MaKhachHang { get; set; }
+    public DateOnly? NgayBatDau { get; set; }
 
-        [Required]
-        [Display(Name = "Mã phòng")]
-        public string MaPhong { get; set; }
+    public DateOnly? NgayKetThuc { get; set; }
 
-        [Required]
-        [Display(Name = "Ngày bắt đầu")]
-        [DataType(DataType.Date)]
-        public DateTime NgayBatDau { get; set; }
+    public decimal TienCoc { get; set; }
 
-        [Display(Name = "Ngày kết thúc")]
-        [DataType(DataType.Date)]
-        public DateTime? NgayKetThuc { get; set; }
+    public string? FileHopDong { get; set; }
 
-        [Display(Name = "Tiền cọc (VNĐ)")]
-        [DataType(DataType.Currency)]
-        public decimal TienCoc { get; set; }
+    public string? TrangThai { get; set; }
 
-        [Display(Name = "Thời hạn (tháng)")]
-        public int ThoiHan { get; set; }
-    }
+    public string? ThoiHan { get; set; }
+
+    public virtual ICollection<HoaDon> HoaDons { get; set; } = new List<HoaDon>();
+
+    public virtual KhachHang MaKhachHangNavigation { get; set; } = null!;
+
+    public virtual Phong MaPhongNavigation { get; set; } = null!;
+
+    public virtual ICollection<NguoiOhopDong> NguoiOhopDongs { get; set; } = new List<NguoiOhopDong>();
 }

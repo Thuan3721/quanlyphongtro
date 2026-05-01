@@ -1,45 +1,27 @@
-namespace HeThongQuanLyPhongTro.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace HeThongQuanLyPhongTro.Models;
+
+public partial class KhachHang
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
+    public int MaKhachHang { get; set; }
 
-    public class KhachHang
-    {
-        public int Id { get; set; }
+    public int? MaTaiKhoan { get; set; }
 
-        [Required]
-        [Display(Name = "Mã khách hàng")]
-        public string MaKhachHang { get; set; }
+    public string HoTen { get; set; } = null!;
 
-        [Required]
-        [Display(Name = "Họ và tên")]
-        public string HoTen { get; set; }
+    public string? Cccd { get; set; }
 
-        [Required]
-        [Display(Name = "CCCD")]
-        [StringLength(20)]
-        public string CCCD { get; set; }
+    public string SoDienThoai { get; set; } = null!;
 
-        [Required]
-        [Display(Name = "Số điện thoại")]
-        [Phone]
-        public string SDT { get; set; }
+    public string? Email { get; set; }
 
-        [Display(Name = "Địa chỉ")]
-        public string DiaChi { get; set; }
+    public string? DiaChi { get; set; }
 
-        [Display(Name = "Giới tính")]
-        public string GioiTinh { get; set; }
+    public DateOnly? NgaySinh { get; set; }
 
-        [Display(Name = "Ngày sinh")]
-        [DataType(DataType.Date)]
-        public DateTime? NgaySinh { get; set; }
+    public virtual ICollection<HopDong> HopDongs { get; set; } = new List<HopDong>();
 
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Display(Name = "Mã tài khoản (khóa phụ)")]
-        public int? MaTaiKhoan { get; set; }
-    }
+    public virtual TaiKhoan? MaTaiKhoanNavigation { get; set; }
 }

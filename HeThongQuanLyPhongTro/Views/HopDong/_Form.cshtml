@@ -38,6 +38,10 @@
 
 <div class="mb-3">
     <label asp-for="ThoiHan" class="form-label"></label>
-    <input asp-for="ThoiHan" class="form-control" type="number" />
+    <select asp-for="ThoiHan" class="form-control">
+        <option value="3">3 tháng</option>
+        <option value="6">6 tháng</option>
+        <option value="12">12 tháng</option>
+    </select>
     <span asp-validation-for="ThoiHan" class="text-danger"></span>
 </div>

@@ -1,29 +1,27 @@
-namespace HeThongQuanLyPhongTro.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace HeThongQuanLyPhongTro.Models;
+
+public partial class Phong
 {
-    using System.ComponentModel.DataAnnotations;
+    public int MaPhong { get; set; }
 
-    public class Phong
-    {
-        public int Id { get; set; }
+    public int MaCoSo { get; set; }
 
-        [Required]
-        [Display(Name = "Mã phòng")]
-        public string MaPhong { get; set; }
+    public string TenPhong { get; set; } = null!;
 
-        [Required]
-        [Display(Name = "Tên phòng")]
-        public string TenPhong { get; set; }
+    public decimal GiaPhong { get; set; }
 
-        [Display(Name = "Số người tối đa")]
-        public int SoLuongToiDa { get; set; }
+    public double DienTich { get; set; }
 
-        [Display(Name = "Diện tích (m²)")]
-        public double DienTich { get; set; }
+    public string? TrangThai { get; set; }
 
-        [Display(Name = "Giá (VNĐ)")]
-        public decimal Gia { get; set; }
+    public virtual ICollection<BaiDang> BaiDangs { get; set; } = new List<BaiDang>();
 
-        [Display(Name = "Tình trạng")]
-        public string TinhTrang { get; set; }
-    }
+    public virtual ICollection<CoSoVatChat> CoSoVatChats { get; set; } = new List<CoSoVatChat>();
+
+    public virtual ICollection<HopDong> HopDongs { get; set; } = new List<HopDong>();
+
+    public virtual CoSo MaCoSoNavigation { get; set; } = null!;
 }
