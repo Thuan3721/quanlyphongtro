@@ -1,0 +1,21 @@
+@model HeThongQuanLyPhongTro.Models.HopDong
+
+@{
+    ViewData["Title"] = "Chi tiết hợp đồng";
+}
+
+<h2>Chi tiết hợp đồng</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.MaHopDong</h5>
+        <p class="card-text">Mã khách hàng: @Model.MaKhachHang</p>
+        <p class="card-text">Mã phòng: @Model.MaPhong</p>
+        <p class="card-text">Ngày bắt đầu: @Model.NgayBatDau.ToString("yyyy-MM-dd")</p>
+        <p class="card-text">Ngày kết thúc: @(Model.NgayKetThuc?.ToString("yyyy-MM-dd"))</p>
+        <p class="card-text">Tiền cọc: @Model.TienCoc.ToString("N0") VNĐ</p>
+        <p class="card-text">Thời hạn: @Model.ThoiHan tháng</p>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Sửa</a>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </div>
+</div>

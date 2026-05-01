@@ -1,0 +1,60 @@
+@model HeThongQuanLyPhongTro.Models.HoaDon
+
+<div class="mb-3">
+    <label asp-for="MaHoaDon" class="form-label"></label>
+    <input asp-for="MaHoaDon" class="form-control" />
+    <span asp-validation-for="MaHoaDon" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="MaHopDong" class="form-label"></label>
+    <input asp-for="MaHopDong" class="form-control" />
+    <span asp-validation-for="MaHopDong" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <label asp-for="Thang" class="form-label"></label>
+        <input asp-for="Thang" class="form-control" type="number" min="1" max="12" />
+        <span asp-validation-for="Thang" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label asp-for="Nam" class="form-label"></label>
+        <input asp-for="Nam" class="form-control" type="number" />
+        <span asp-validation-for="Nam" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label asp-for="TongTien" class="form-label"></label>
+        <input asp-for="TongTien" class="form-control" type="number" step="1000" />
+        <span asp-validation-for="TongTien" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="TrangThaiThanhToan" class="form-label"></label>
+    <select asp-for="TrangThaiThanhToan" class="form-select">
+        <option value="">-- Chọn --</option>
+        <option>Chưa thanh toán</option>
+        <option>Đã thanh toán</option>
+        <option>Một phần</option>
+    </select>
+    <span asp-validation-for="TrangThaiThanhToan" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="NgayThanhToan" class="form-label"></label>
+    <input asp-for="NgayThanhToan" class="form-control" type="date" />
+    <span asp-validation-for="NgayThanhToan" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="NoiDungThanhToan" class="form-label"></label>
+    <textarea asp-for="NoiDungThanhToan" class="form-control" rows="3"></textarea>
+    <span asp-validation-for="NoiDungThanhToan" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="NgayTao" class="form-label"></label>
+    <input asp-for="NgayTao" class="form-control" type="datetime-local" />
+    <span asp-validation-for="NgayTao" class="text-danger"></span>
+</div>

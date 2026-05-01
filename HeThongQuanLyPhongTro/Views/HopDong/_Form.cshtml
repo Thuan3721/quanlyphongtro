@@ -1,0 +1,43 @@
+@model HeThongQuanLyPhongTro.Models.HopDong
+
+<div class="mb-3">
+    <label asp-for="MaHopDong" class="form-label"></label>
+    <input asp-for="MaHopDong" class="form-control" />
+    <span asp-validation-for="MaHopDong" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="MaKhachHang" class="form-label"></label>
+    <input asp-for="MaKhachHang" class="form-control" />
+    <span asp-validation-for="MaKhachHang" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="MaPhong" class="form-label"></label>
+    <input asp-for="MaPhong" class="form-control" />
+    <span asp-validation-for="MaPhong" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="NgayBatDau" class="form-label"></label>
+    <input asp-for="NgayBatDau" class="form-control" type="date" />
+    <span asp-validation-for="NgayBatDau" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="NgayKetThuc" class="form-label"></label>
+    <input asp-for="NgayKetThuc" class="form-control" type="date" />
+    <span asp-validation-for="NgayKetThuc" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="TienCoc" class="form-label"></label>
+    <input asp-for="TienCoc" class="form-control" type="number" step="1000" />
+    <span asp-validation-for="TienCoc" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="ThoiHan" class="form-label"></label>
+    <input asp-for="ThoiHan" class="form-control" type="number" />
+    <span asp-validation-for="ThoiHan" class="text-danger"></span>
+</div>

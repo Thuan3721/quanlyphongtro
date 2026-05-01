@@ -1,0 +1,22 @@
+@model HeThongQuanLyPhongTro.Models.KhachHang
+
+@{
+    ViewData["Title"] = "Chi tiết khách hàng";
+}
+
+<h2>Chi tiết khách hàng</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.HoTen (@Model.MaKhachHang)</h5>
+        <p class="card-text">CCCD: @Model.CCCD</p>
+        <p class="card-text">Số điện thoại: @Model.SDT</p>
+        <p class="card-text">Địa chỉ: @Model.DiaChi</p>
+        <p class="card-text">Giới tính: @Model.GioiTinh</p>
+        <p class="card-text">Ngày sinh: @(Model.NgaySinh?.ToString("yyyy-MM-dd"))</p>
+        <p class="card-text">Email: @Model.Email</p>
+        <p class="card-text">Mã tài khoản: @Model.MaTaiKhoan</p>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Sửa</a>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </div>
+</div>

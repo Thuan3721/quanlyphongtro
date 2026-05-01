@@ -1,0 +1,52 @@
+@model HeThongQuanLyPhongTro.Models.HoaDon
+
+@{
+    Layout = "_Layout"; // hoặc set null để in không có header/footer
+    ViewData["Title"] = "In hóa đơn";
+}
+
+<div class="container mt-3">
+    <div class="d-flex justify-content-between mb-3">
+        <h3>HÓA ĐƠN</h3>
+        <div>
+            <button class="btn btn-primary" onclick="window.print()">In / Lưu PDF</button>
+            <a asp-action="Details" asp-route-id="Model.Id" class="btn btn-secondary">Quay lại</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5>Mã hóa đơn: @Model.MaHoaDon</h5>
+            <p>Mã hợp đồng: @Model.MaHopDong</p>
+            <p>Kỳ: @Model.Thang / @Model.Nam</p>
+            <p>Nội dung: @Model.NoiDungThanhToan</p>
+
+            <table class="table mt-3">
+                <thead>
+                    <tr>
+                        <th>Mô tả</th>
+                        <th class="text-end">Số tiền (VNĐ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tổng</td>
+                        <td class="text-end">@Model.TongTien.ToString("N0")</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="mt-3">Trạng thái: <strong>@Model.TrangThaiThanhToan</strong></p>
+            <p>Ngày thanh toán: @(Model.NgayThanhToan?.ToString("yyyy-MM-dd") ?? "Chưa thanh toán")</p>
+            <p>Ngày tạo: @Model.NgayTao.ToString("yyyy-MM-dd HH:mm")</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <style>
+        @@media print {
+            .navbar, .footer, .btn { display: none !important; }
+        }
+    </style>
+}
