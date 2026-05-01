@@ -15,7 +15,7 @@ namespace HeThongQuanLyPhongTro.Controllers
         }
 
         // SỬA PHƯƠNG THỨC INDEX NÀY
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             // Kiểm tra đăng nhập
             if (HttpContext.Session.GetInt32("UserId") == null)
@@ -47,7 +47,6 @@ namespace HeThongQuanLyPhongTro.Controllers
 
                 var ngayHetHan = DateTime.Now.AddDays(7);
 
-                // SỬA: Dùng Include với đúng tên Navigation Property
                 var hopDongSapHetHan = _context.HopDong
                     .Include(h => h.PhongNavigation)
                     .Include(h => h.KhachHangNavigation)
@@ -62,6 +61,33 @@ namespace HeThongQuanLyPhongTro.Controllers
                     NgayKetThuc = h.NgayKetThuc ?? DateTime.Now,
                     SoNgayConLai = (h.NgayKetThuc - DateTime.Now)?.Days ?? 0
                 }).ToList();
+
+                // ========== THÊM THỐNG KÊ BÀI ĐĂNG ==========
+                model.TongSoBaiDang = await _context.BaiDang.CountAsync();
+                model.SoBaiDangHienThi = await _context.BaiDang.CountAsync(b => b.TrangThai == "Hiển thị");
+                model.SoBaiDangAn = await _context.BaiDang.CountAsync(b => b.TrangThai == "Ẩn");
+                model.SoBaiDangThangNay = await _context.BaiDang.CountAsync(b =>
+                    b.NgayDang.HasValue &&
+                    b.NgayDang.Value.Month == now.Month &&
+                    b.NgayDang.Value.Year == now.Year);
+
+                // Lấy 5 bài đăng gần đây nhất
+                var baiDangGanDay = await _context.BaiDang
+                    .Include(b => b.PhongNavigation)
+                    .OrderByDescending(b => b.NgayDang)
+                    .Take(5)
+                    .Select(b => new BaiDangGanDay
+                    {
+                        MaBaiDang = b.MaBaiDang,
+                        TieuDe = b.TieuDe ?? "Không có tiêu đề",
+                        TenPhong = b.PhongNavigation != null ? b.PhongNavigation.TenPhong : "N/A",
+                        NgayDang = b.NgayDang ?? DateTime.Now,
+                        TrangThai = b.TrangThai ?? "Ẩn",
+                        LuotXem = 0
+                    })
+                    .ToListAsync();
+
+                model.BaiDangGanDayList = baiDangGanDay;
 
                 ViewBag.Role = role;
                 ViewBag.Username = HttpContext.Session.GetString("Username");
@@ -96,7 +122,7 @@ namespace HeThongQuanLyPhongTro.Controllers
                 return View();
             }
 
-            // Lấy hợp đồng hiện tại của khách - SỬA tên Navigation
+            // Lấy hợp đồng hiện tại của khách
             var hopDongHienTai = await _context.HopDong
                 .Include(h => h.PhongNavigation)
                 .FirstOrDefaultAsync(h => h.MaKhachHang == khachHang.MaKhachHang && h.TrangThai == "Hiệu lực");
