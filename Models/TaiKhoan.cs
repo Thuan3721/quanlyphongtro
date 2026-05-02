@@ -1,7 +1,7 @@
-﻿namespace HeThongQuanLyPhongTro.Models
-{
-    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace HeThongQuanLyPhongTro.Models
+{
     public class TaiKhoan
     {
         [Key]
@@ -12,5 +12,7 @@
         public required string MatKhau { get; set; }
 
         public required string VaiTro { get; set; }
+
+        public string? TrangThai { get; set; } = "Hoạt động";
     }
 }

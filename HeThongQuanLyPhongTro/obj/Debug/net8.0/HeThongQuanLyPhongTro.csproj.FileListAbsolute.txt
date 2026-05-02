@@ -7,9 +7,7 @@ E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\HeThongQuanLyPhongTro.MvcApplicationPartsAssemblyInfo.cache
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\HeThongQuanLyPhongTro.RazorAssemblyInfo.cache
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\HeThongQuanLyPhongTro.RazorAssemblyInfo.cs
-E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\bin\Debug\net8.0\appsettings.Development.json
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\bin\Debug\net8.0\appsettings.json
-E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\bin\Debug\net8.0\HeThongQuanLyPhongTro.staticwebassets.runtime.json
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\bin\Debug\net8.0\HeThongQuanLyPhongTro.staticwebassets.endpoints.json
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\bin\Debug\net8.0\HeThongQuanLyPhongTro.exe
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\bin\Debug\net8.0\HeThongQuanLyPhongTro.deps.json
@@ -214,9 +212,7 @@ E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\bin\
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\rjimswa.dswa.cache.json
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
-E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\scopedcss\bundle\HeThongQuanLyPhongTro.styles.css
-E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\scopedcss\projectbundle\HeThongQuanLyPhongTro.bundle.scp.css
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\staticwebassets.build.json
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\staticwebassets.build.json.cache
 E:\Hệ Thống QL Phòng Trọ\HeThongQuanLyPhongTro\HeThongQuanLyPhongTro\obj\Debug\net8.0\staticwebassets.development.json

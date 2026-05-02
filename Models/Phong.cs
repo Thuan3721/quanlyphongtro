@@ -1,19 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace HeThongQuanLyPhongTro.Models
 {
     public class Phong
     {
         [Key]
         public int MaPhong { get; set; }
-        [Required(ErrorMessage = "Tên phòng không được để trống")]
-        public string TenPhong { get; set; }
-        [Required(ErrorMessage = "Giá phòng không được để trống")]
-        [Range(1, 100000000, ErrorMessage = "Giá phòng phải lớn hơn 0")]
+        public int MaCoSo { get; set; }
+        public string TenPhong { get; set; } = string.Empty;
         public decimal GiaPhong { get; set; }
-        [Required(ErrorMessage = "Diện tích không được để trống")]
-        [Range(1, 1000, ErrorMessage = "Diện tích phải lớn hơn 0")]
-        public double DienTich { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn trạng thái")]
-        public string TrangThai { get; set; }
+        public double? DienTich { get; set; }
+        public string? TrangThai { get; set; }
+
+        [ForeignKey("MaCoSo")]
+        public virtual CoSo? CoSo { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace HeThongQuanLyPhongTro.Controllers
         [HttpPost]
         public IActionResult Index(string tenDangNhap, string matKhau)
         {
-            var user = _context.TaiKhoans
+            var user = _context.TaiKhoan
                 .FirstOrDefault(x =>
                     x.TenDangNhap == tenDangNhap &&
                     x.MatKhau == matKhau);

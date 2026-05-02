@@ -1,50 +1,250 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - HeThongQuanLyPhongTro</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/HeThongQuanLyPhongTro.styles.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - Hệ thống quản lý phòng trọ</title>
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HeThongQuanLyPhongTro</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+<body class="bg-gray-100">
+    @{
+        var role = Context.Session.GetString("Role");
+        var username = Context.Session.GetString("Username");
+    }
+
+    @if (role == "Admin")
+    {
+        <!-- ADMIN LAYOUT -->
+        <div class="flex h-screen">
+            <!-- Sidebar Admin -->
+            <div class="w-64 bg-gradient-to-b from-gray-900 to-gray-800 text-white flex flex-col shadow-xl">
+                <div class="p-5 border-b border-gray-700">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-building text-2xl text-blue-400"></i>
+                        <span class="text-xl font-bold">QL Phòng Trọ</span>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2">Admin Dashboard</p>
+                </div>
+
+                <nav class="flex-1 mt-5">
+                    <a href="@Url.Action("Index", "Dashboard")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all group">
+                        <i class="fas fa-tachometer-alt w-5 mr-3"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="@Url.Action("Index", "CoSo")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+                        <i class="fas fa-building w-5 mr-3"></i>
+                        <span>Cơ sở</span>
+                    </a>
+                    <a href="@Url.Action("Index", "Phong")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+                        <i class="fas fa-door-open w-5 mr-3"></i>
+                        <span>Quản lý phòng</span>
+                    </a>
+                    <a href="@Url.Action("Index", "KhachHang")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+                        <i class="fas fa-users w-5 mr-3"></i>
+                        <span>Khách hàng</span>
+                    </a>
+                    <a href="@Url.Action("Index", "HopDong")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+                        <i class="fas fa-file-contract w-5 mr-3"></i>
+                        <span>Hợp đồng</span>
+                    </a>
+                    <a href="@Url.Action("Index", "HoaDon")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+                        <i class="fas fa-receipt w-5 mr-3"></i>
+                        <span>Hóa đơn</span>
+                    </a>
+                    <a href="@Url.Action("Index", "TaiKhoan")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+                        <i class="fas fa-user-cog w-5 mr-3"></i>
+                        <span>Tài khoản</span>
+                    </a>
+                </nav>
+
+                <div class="p-5 border-t border-gray-700">
+                    <a href="@Url.Action("Logout", "Login")" class="flex items-center text-red-400 hover:text-red-300 transition-all">
+                        <i class="fas fa-sign-out-alt w-5 mr-3"></i>
+                        <span>Đăng xuất</span>
+                    </a>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - HeThongQuanLyPhongTro - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <!-- Main Content Admin -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="bg-white shadow-md sticky top-0 z-10">
+                    <div class="flex justify-between items-center px-6 py-3">
+                        <div>
+                            <h1 class="text-xl font-semibold text-gray-800">@ViewData["Title"]</h1>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="relative">
+                                <i class="fas fa-bell text-gray-500 cursor-pointer hover:text-gray-700"></i>
+                                <span class="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <span class="text-sm font-medium text-gray-700">@username</span>
+                                <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">Admin</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    @RenderBody()  <!-- 👈 QUAN TRỌNG: Đã thêm dòng này -->
+                </div>
+            </div>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    }
+    else if (role == "Khach")
+    {
+        <!-- KHACH HANG LAYOUT -->
+        <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+            <!-- Header Khách -->
+            <nav class="bg-white shadow-lg sticky top-0 z-50">
+                <div class="container mx-auto px-6 py-3">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-home text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-xl font-bold text-gray-800">Phòng Trọ Xinh</h1>
+                                <p class="text-xs text-gray-500">Nơi an cư, nghiệp vững</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-6">
+                            <a href="@Url.Action("Index", "Dashboard")" class="text-gray-600 hover:text-blue-500 transition-colors">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                            <a href="@Url.Action("PhongCuaToi", "KhachHang")" class="text-gray-600 hover:text-blue-500 transition-colors">
+                                <i class="fas fa-home"></i> Phòng của tôi
+                            </a>
+                            <a href="@Url.Action("HopDongCuaToi", "HopDong")" class="text-gray-600 hover:text-blue-500 transition-colors">
+                                <i class="fas fa-file-contract"></i> Hợp đồng
+                            </a>
+                            <a href="@Url.Action("HoaDonCuaToi", "HoaDon")" class="text-gray-600 hover:text-blue-500 transition-colors">
+                                <i class="fas fa-receipt"></i> Hóa đơn
+                            </a>
+
+                            <div class="relative group">
+                                <button class="flex items-center space-x-2 focus:outline-none">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <span class="text-gray-700">@username</span>
+                                    <i class="fas fa-chevron-down text-gray-500 text-xs"></i>
+                                </button>
+                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl hidden group-hover:block transition-all">
+                                    <a href="@Url.Action("Logout", "Login")" class="block px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg">
+                                        <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            @if (role == "Khach")
+            {
+                <div class="nav-header">THÔNG TIN CỦA TÔI</div>
+                <a href="@Url.Action("Dashboard", "KhachHang")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+                    <i class="fas fa-tachometer-alt w-5 mr-3"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="@Url.Action("HopDongCuaToi", "KhachHang")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+                    <i class="fas fa-file-contract w-5 mr-3"></i>
+                    <span>Hợp đồng của tôi</span>
+                </a>
+                <a href="@Url.Action("HoaDonCuaToi", "KhachHang")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+                    <i class="fas fa-receipt w-5 mr-3"></i>
+                    <span>Hóa đơn của tôi</span>
+                </a>
+                <a href="@Url.Action("LichSuThanhToan", "KhachHang")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+                    <i class="fas fa-history w-5 mr-3"></i>
+                    <span>Lịch sử thanh toán</span>
+                </a>
+            }
+            <!-- Main Content Khách -->
+            <div class="container mx-auto px-6 py-8">
+                @RenderBody()  <!-- 👈 QUAN TRỌNG: Đã thêm dòng này -->
+            </div>
+
+            <!-- Footer Khách -->
+            <footer class="bg-white mt-12 border-t">
+                <div class="container mx-auto px-6 py-4">
+                    <p class="text-center text-gray-500 text-sm">© 2024 Phòng Trọ Xinh - Nơi bạn tìm thấy ngôi nhà thứ hai</p>
+                </div>
+            </footer>
+        </div>
+    }
+    else
+    {
+        <!-- Fallback Layout khi chưa đăng nhập -->
+        <div class="container mx-auto px-4 py-8">
+            @RenderBody()
+        </div>
+    }
+
+    <script>
+        // Thêm hiệu ứng cho sidebar admin
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('bg-gray-700'));
+                this.classList.add('bg-gray-700');
+            });
+        });
+                <a href="@Url.Action("Index", "KhachHang")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+            <i class="fas fa-users w-5 mr-3"></i>
+            <span>Khách hàng</span>
+        </a>
+                <a href="@Url.Action("Index", "HopDong")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+            <i class="fas fa-file-contract w-5 mr-3"></i>
+            <span>Hợp đồng</span>
+        </a>
+                <a href="@Url.Action("Index", "HoaDon")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+            <i class="fas fa-receipt w-5 mr-3"></i>
+            <span>Hóa đơn</span>
+        </a>
+                <a href="@Url.Action("Index", "BaiDang")" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-all">
+            <i class="fas fa-newspaper w-5 mr-3"></i>
+            <span>Bài đăng</span>
+        </a>
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
