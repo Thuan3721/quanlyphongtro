@@ -1,0 +1,516 @@
+﻿@model List<HeThongQuanLyPhongTro.Models.Phong>
+@{
+    ViewData["Title"] = "Phòng Trọ Xinh - Tìm phòng trọ giá rẻ";
+    Layout = null;
+    var danhSachPhongNoiBat = Model;
+    var danhSachCoSo = ViewBag.DanhSachCoSo as List<HeThongQuanLyPhongTro.Models.CoSo>;
+    var dictAnh = ViewBag.DictAnh as Dictionary<int, string>;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        .hero-bg {
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+        background-size: cover;
+        background-position: center;
+        }
+
+        .search-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        }
+
+        .room-card {
+        transition: all 0.3s ease;
+        border: 1px solid #e5e7eb;
+        }
+
+        .room-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        border-color: #3b82f6;
+        }
+
+        .price-tag {
+        color: #dc2626;
+        font-weight: bold;
+        }
+
+        .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        }
+
+        /* Chỉnh z-index để bản đồ không đè lên menu dropdown (nếu có) */
+        #mainMap {
+        z-index: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="w-full px-6 md:px-16 py-3">
+            <div class="flex justify-between items-center h-10">
+
+                <a href="@Url.Action("Index", "Home")" class="flex items-center space-x-2 text-blue-500 hover:text-blue-700 transition-colors">
+                    <i class="fas fa-home text-2xl"></i>
+                    <span class="text-xl font-bold text-gray-800">Trang Chủ</span>
+                </a>
+
+                <div class="flex space-x-6 font-semibold text-sm items-center">
+                    <a href="@Url.Action("Index", "Home")" class="text-gray-600 hover:text-blue-500 transition-colors">Trang Chủ</a>
+                    <a href="@Url.Action("Index", "Login")" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-xl text-xs font-bold transition shadow-sm flex items-center space-x-1">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Đăng Nhập</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-bg py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center text-white mb-8">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Tìm Phòng Trọ Ưng Ý Nhất!</h1>
+                <p class="text-xl opacity-90">Hàng ngàn phòng trọ chất lượng, giá tốt nhất thị trường</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="search-card p-6 shadow-2xl">
+                    <form method="get" class="space-y-4" id="searchForm">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <i class="fas fa-map-marker-alt mr-1 text-blue-500"></i> Chọn khu vực
+                                </label>
+                                <select name="maKhuVuc" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">-- Tất cả khu vực --</option>
+                                    @{
+                                        var danhSachKhuVuc = ViewBag.DanhSachKhuVuc as List<HeThongQuanLyPhongTro.Models.CoSo>;
+                                        var maKhuVucHienTai = ViewBag.MaKhuVuc as int?;
+                                    }
+                                    @if (danhSachKhuVuc != null && danhSachKhuVuc.Any())
+                                    {
+                                        foreach (var coSo in danhSachKhuVuc)
+                                        {
+                                            if (maKhuVucHienTai == coSo.MaCoSo)
+                                            {
+                                                <option value="@coSo.MaCoSo" selected>@coSo.TenCoSo</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@coSo.MaCoSo">@coSo.TenCoSo</option>
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="">Hoàn Kiếm</option>
+                                        <option value="">Ba Đình</option>
+                                        <option value="">Đống Đa</option>
+                                        <option value="">Hai Bà Trưng</option>
+                                        <option value="">Hoàng Mai</option>
+                                        <option value="">Thanh Xuân</option>
+                                        <option value="">Cầu Giấy</option>
+                                        <option value="">Nam Từ Liêm</option>
+                                        <option value="">Bắc Từ Liêm</option>
+                                        <option value="">Hà Đông</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <i class="fas fa-dollar-sign mr-1 text-blue-500"></i> Giá từ (VNĐ)
+                                </label>
+                                <select name="giaTu" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700 text-sm">
+                                    <option value="">-- Không giới hạn --</option>
+                                    @{
+                                        var giaTu = ViewBag.GiaTu as int?;
+                                    }
+                                    <option value="1000000" selected="@(giaTu == 1000000)">1.000.000 đ</option>
+                                    <option value="2000000" selected="@(giaTu == 2000000)">2.000.000 đ</option>
+                                    <option value="3000000" selected="@(giaTu == 3000000)">3.000.000 đ</option>
+                                    <option value="4000000" selected="@(giaTu == 4000000)">4.000.000 đ</option>
+                                    <option value="5000000" selected="@(giaTu == 5000000)">5.000.000 đ</option>
+                                    <option value="7000000" selected="@(giaTu == 7000000)">7.000.000 đ</option>
+                                    <option value="9000000" selected="@(giaTu == 9000000)">9.000.000 đ</option>
+                                    <option value="12000000" selected="@(giaTu == 12000000)">12.000.000 đ</option>
+                                    <option value="15000000" selected="@(giaTu == 15000000)">15.000.000 đ</option>
+                                    <option value="20000000" selected="@(giaTu == 20000000)">20.000.000 đ</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <i class="fas fa-dollar-sign mr-1 text-blue-500"></i> Giá đến (VNĐ)
+                                </label>
+                                <select name="giaDen" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700 text-sm">
+                                    <option value="">-- Không giới hạn --</option>
+                                    <option value="1000000" selected="@(giaTu == 1000000)">1.000.000 đ</option>
+                                    <option value="2000000" selected="@(giaTu == 2000000)">2.000.000 đ</option>
+                                    <option value="3000000" selected="@(giaTu == 3000000)">3.000.000 đ</option>
+                                    <option value="4000000" selected="@(giaTu == 4000000)">4.000.000 đ</option>
+                                    <option value="5000000" selected="@(giaTu == 5000000)">5.000.000 đ</option>
+                                    <option value="7000000" selected="@(giaTu == 7000000)">7.000.000 đ</option>
+                                    <option value="9000000" selected="@(giaTu == 9000000)">9.000.000 đ</option>
+                                    <option value="12000000" selected="@(giaTu == 12000000)">12.000.000 đ</option>
+                                    <option value="15000000" selected="@(giaTu == 15000000)">15.000.000 đ</option>
+                                    <option value="20000000" selected="@(giaTu == 20000000)">20.000.000 đ</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <i class="fas fa-search mr-1 text-blue-500"></i> Tìm kiếm
+                                </label>
+                                <input type="text" name="searchString" value="@ViewBag.SearchString"
+                                       placeholder="Tên phòng, tòa nhà, khu vực, tiện ích..."
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg transition font-semibold">
+                            <i class="fas fa-search mr-2"></i> Tìm kiếm phòng trọ
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mx-auto px-4 py-8">
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl shadow-lg p-8 text-center text-white mb-10">
+            <h2 class="text-2xl font-bold mb-2">Bạn đang có phòng trọ / căn hộ cho thuê?</h2>
+            <p class="mb-4 opacity-90">Đăng tin ngay để tiếp cận hàng ngàn khách thuê tiềm năng</p>
+
+            <a href="@Url.Action("Index", "Login", new { returnUrl = "/BaiDang/Create" })" class="inline-block bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-xl font-semibold transition">
+                <i class="fas fa-plus-circle mr-2"></i> Đăng tin
+            </a>
+        </div>
+
+        <div class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-map-marked-alt text-blue-500 mr-2"></i> Khám phá qua bản đồ
+            </h2>
+            <div id="mainMap" class="w-full h-[500px] rounded-2xl shadow-lg border border-gray-200"></div>
+        </div>
+
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">🏠 Danh sách phòng trọ</h2>
+            <span class="text-sm text-gray-500">@(ViewBag.TongSo ?? 0) kết quả</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @if (danhSachPhongNoiBat != null && danhSachPhongNoiBat.Any())
+            {
+                @foreach (var phong in danhSachPhongNoiBat)
+                {
+                    <div class="room-card bg-white rounded-xl overflow-hidden">
+                        <div class="h-48 bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
+                            @{
+                                var anhPhong = dictAnh != null && dictAnh.ContainsKey(phong.MaPhong) && !string.IsNullOrEmpty(dictAnh[phong.MaPhong]) ? dictAnh[phong.MaPhong] : null;
+                            }
+                            @if (!string.IsNullOrEmpty(anhPhong))
+                            {
+                                <img src="@anhPhong" class="w-full h-full object-cover" />
+                            }
+                            else
+                            {
+                                <i class="fas fa-building text-white text-6xl opacity-50"></i>
+                            }
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-lg text-gray-800 mb-1">@phong.TenPhong</h3>
+                            <p class="text-gray-500 text-sm mb-2">
+                                <i class="fas fa-map-marker-alt mr-1 text-red-500"></i>
+                                @phong.ToaNha?.CoSo?.TenCoSo (@phong.ToaNha?.DiaChi)
+                            </p>
+                            <p class="price-tag text-xl mb-2">@phong.GiaPhong.ToString("N0") <span class="text-sm">đ/tháng</span></p>
+                            <div class="flex items-center justify-between text-gray-500 text-sm mb-3">
+                                <span><i class="fas fa-ruler-combined mr-1"></i> @phong.DienTich m²</span>
+
+                            </div>
+                            <a href="@Url.Action("ChiTietPhong", "Home", new { id = phong.MaPhong })"
+                               class="block text-center bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition">
+                                Xem chi tiết <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-span-3 text-center py-16">
+                    <i class="fas fa-inbox text-gray-300 text-5xl mb-3"></i>
+                    <p class="text-gray-500">Không tìm thấy phòng trọ nào</p>
+                </div>
+            }
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-6 mt-8">
+        <div class="bg-[#1e293b] text-slate-400 text-center py-6 text-sm border-t border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 space-y-2">
+                <p class="font-medium text-slate-300">
+                    &copy; @DateTime.Now.Year Phòng Trọ Xinh - Tìm phòng trọ giá rẻ
+                    <span class="mx-2 text-slate-600">|</span>
+                    <span>Bạn muốn trở thành chủ trọ?</span>
+                    <a href="#" id="btnLienHeAdmin" class="text-blue-400 hover:text-blue-300 font-bold hover:underline transition-colors ml-1">Liên hệ Admin ngay</a>
+                </p>
+                <p class="text-xs text-slate-500">
+                    Hotline: 0869 189 018 <span class="mx-1 text-slate-700">|</span> Email: phongtro@gmail.com
+                </p>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            var btnLienHe = document.getElementById('btnLienHeAdmin');
+            if (btnLienHe) {
+            btnLienHe.onclick = function (e) {
+            e.preventDefault();
+            Swal.fire({
+            title: '<strong>Đăng ký hợp tác Chủ trọ</strong>',
+            icon: 'info',
+            html:
+            '<div class="text-left text-sm text-gray-600 space-y-3 p-1">' +
+            '<p>Để đăng ký quyền quản lý tòa nhà trên hệ thống <b>Phòng Trọ Xinh</b>, bạn vui lòng liên hệ với chúng mình qua các thông tin dưới đây. Rất mong được hợp tác với quý Chủ trọ. <b>Phòng Trọ Xinh xin cảm ơn!</b></p>' +
+            '<div class="bg-gray-50 p-4 rounded-xl border border-gray-100 space-y-2 font-semibold mt-2 text-gray-800">' +
+            '<p><i class="fas fa-phone-alt text-blue-500 mr-2.5"></i> Hotline: <span class="text-gray-900">0869.189.018</span></p>' +
+            '<p><i class="fas fa-envelope text-red-500 mr-2.5"></i> Email: <span class="text-gray-900">adminphongtroxinh@gmail.com</span></p>' +
+            '<p><i class="fab fa-comment-dots text-green-500 mr-2.5"></i> Zalo hỗ trợ: <span class="text-blue-600 underline">0869.189.018</span></p>' +
+            '</div>' +
+            '<p class="text-xs text-gray-400 italic mt-3 text-center">* Đội ngũ Admin hỗ trợ duyệt hồ sơ và làm việc từ 8h00 - 22h00 hàng ngày.*</p>' +
+            '</div>',
+            showCloseButton: true,
+            confirmButtonText: 'Đóng lại',
+            confirmButtonColor: '#2563eb'
+            });
+            };
+            }
+            });
+        </script>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+        // ============================================================
+        // 1. DỮ LIỆU TỪ BACKEND
+        // ============================================================
+        @{
+            string tenKhuVucDuocChon = "";
+            var maKV = ViewBag.MaKhuVuc as int?;
+            var dsKV = ViewBag.DanhSachKhuVuc as List<HeThongQuanLyPhongTro.Models.CoSo>;
+            if (maKV.HasValue && dsKV != null)
+            {
+                var match = dsKV.FirstOrDefault(x => x.MaCoSo == maKV.Value);
+                if (match != null) tenKhuVucDuocChon = match.TenCoSo;
+            }
+        }
+        var selectedKhuVuc = '@Html.Raw(tenKhuVucDuocChon)';
+
+        var listPhong = [
+        @if (danhSachPhongNoiBat != null)
+        {
+            foreach (var phong in danhSachPhongNoiBat)
+            {
+                var anh = dictAnh != null && dictAnh.ContainsKey(phong.MaPhong) && !string.IsNullOrEmpty(dictAnh[phong.MaPhong])
+                    ? dictAnh[phong.MaPhong]
+                    : "/images/default-room.jpg";
+                string strViDo = phong.ToaNha?.ViDo?.ToString("0.000000", System.Globalization.CultureInfo.InvariantCulture) ?? "null";
+                string strKinhDo = phong.ToaNha?.KinhDo?.ToString("0.000000", System.Globalization.CultureInfo.InvariantCulture) ?? "null";
+                <text>
+                    {
+                    ten: '@Html.Raw(phong.TenPhong?.Replace("'", "\\'") ?? "")',
+                    gia: '@phong.GiaPhong.ToString("N0")',
+                    khuVuc: '@Html.Raw((phong.ToaNha?.CoSo?.TenCoSo ?? "Hà Nội").Replace("'", "\\'"))',
+                    anh: '@anh',
+                    link: '@Url.Action("ChiTietPhong", "Home", new { id = phong.MaPhong })',
+                    viDo: @strViDo,
+                    kinhDo: @strKinhDo
+                    },
+                </text>
+            }
+        }
+        ];
+
+        var listTatCaToaNha = [
+        @{
+            var tatCaToaNha = ViewBag.TatCaToaNha as List<HeThongQuanLyPhongTro.Models.ToaNha>;
+        }
+        @if (tatCaToaNha != null)
+        {
+            foreach (var tn in tatCaToaNha)
+            {
+                if (tn.ViDo.HasValue && tn.KinhDo.HasValue)
+                {
+                    string vd = tn.ViDo.Value.ToString("0.000000", System.Globalization.CultureInfo.InvariantCulture);
+                    string kd = tn.KinhDo.Value.ToString("0.000000", System.Globalization.CultureInfo.InvariantCulture);
+                    <text>
+                        {
+                        ten: '@Html.Raw((tn.TenToaNha ?? "").Replace("'", "\\'"))',
+                        diaChi: '@Html.Raw((tn.DiaChi ?? "").Replace("'", "\\'"))',
+                        khuVuc: '@Html.Raw((tn.CoSo?.TenCoSo ?? "").Replace("'", "\\'"))',
+                        viDo: @vd,
+                        kinhDo: @kd
+                        },
+                    </text>
+                }
+            }
+        }
+        ];
+
+        // ============================================================
+        // 2. KHỞI TẠO MAP
+        // ============================================================
+        var map = L.map('mainMap');
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        var iconDo = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
+        });
+
+        var iconXam = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [20, 33], iconAnchor: [10, 33], popupAnchor: [1, -28], shadowSize: [33, 33]
+        });
+
+        // ============================================================
+        // 3. GHIM TẤT CẢ TÒA NHÀ (MÀU XÁM)
+        // ============================================================
+        listTatCaToaNha.forEach(function(tn) {
+        L.marker([tn.viDo, tn.kinhDo], { icon: iconXam })
+        .addTo(map)
+        .bindPopup(
+        '<div style="font-family:Arial;min-width:160px">' +
+        '<b style="font-size:13px">' + tn.ten + '</b>' +
+        '<p style="color:#6b7280;font-size:11px;margin:4px 0 0">' + tn.diaChi + '</p>' +
+        '</div>'
+        );
+        });
+
+        // ============================================================
+        // 4. GHIM PHÒNG ĐANG LỌC (MÀU ĐỎ NỔI BẬT)
+        // ============================================================
+        var bounds = [];
+        listPhong.forEach(function(p) {
+        if (p.viDo !== null && p.kinhDo !== null) {
+        var popup =
+        '<div style="width:220px;font-family:Arial">' +
+        '<img src="' + p.anh + '" style="width:100%;height:120px;object-fit:cover;border-radius:8px 8px 0 0;margin-bottom:8px">' +
+        '<div style="padding:0 5px">' +
+        '<h4 style="margin:0 0 5px;font-size:14px;font-weight:bold;color:#1f2937">' + p.ten + '</h4>' +
+        '<p style="margin:0 0 5px;color:#dc2626;font-weight:bold;font-size:14px">' + p.gia + ' đ/tháng</p>' +
+        '<p style="margin:0 0 8px;color:#6b7280;font-size:11px">' + p.khuVuc + '</p>' +
+        '<a href="' + p.link + '" style="display:block;text-align:center;background:#2563eb;color:white;text-decoration:none;padding:6px 0;border-radius:5px;font-weight:bold;font-size:12px">Xem chi tiết</a>' +
+        '</div></div>';
+
+        L.marker([p.viDo, p.kinhDo], { icon: iconDo })
+        .addTo(map)
+        .bindPopup(popup);
+
+        bounds.push([p.viDo, p.kinhDo]);
+        }
+        });
+
+        // ============================================================
+        // 5. VIỀN KHU VỰC VÀ TÀNG HÌNH GHIM XANH
+        // ============================================================
+        var viienLayer = null;
+
+        function veVienKhuVuc(tenQuanHuyen) {
+        if (!tenQuanHuyen) return;
+
+        var url = 'https://nominatim.openstreetmap.org/search?q=' +
+        encodeURIComponent(tenQuanHuyen + ', Hà Nội, Việt Nam') +
+        '&format=json&polygon_geojson=1&limit=1';
+
+        fetch(url, { headers: { 'Accept-Language': 'vi' } })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+        if (!data || data.length === 0) return;
+        var geojson = data[0].geojson;
+        if (!geojson) return;
+
+        if (viienLayer) map.removeLayer(viienLayer);
+
+        viienLayer = L.geoJSON(geojson, {
+        // CHÌA KHÓA Ở ĐÂY: Ép ghim mặc định của Nominatim thành vô hình
+        pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, { radius: 0, opacity: 0, fillOpacity: 0 });
+        },
+        style: {
+        color: '#2563eb',
+        weight: 3,
+        opacity: 0.8,
+        fillColor: '#3b82f6',
+        fillOpacity: 0.08
+        }
+        }).addTo(map);
+
+        // Dùng thẳng BoundingBox của API để zoom chuẩn xác 100%
+        var bbox = data[0].boundingbox;
+        if (bbox) {
+        map.fitBounds([
+        [parseFloat(bbox[0]), parseFloat(bbox[2])],
+        [parseFloat(bbox[1]), parseFloat(bbox[3])]
+        ], { padding: [30, 30] });
+        }
+        })
+        .catch(function() {
+        var toaDoQuocDan = {
+        "Hai Bà Trưng": [21.0135, 105.8510],
+        "Cầu Giấy":     [21.0305, 105.7950],
+        "Đống Đa":      [21.0175, 105.8236],
+        "Hoàn Kiếm":    [21.0285, 105.8542],
+        "Thanh Xuân":   [20.9934, 105.8055],
+        "Hoàng Mai":    [20.9703, 105.8458],
+        "Ba Đình":      [21.0345, 105.8200],
+        "Hà Đông":      [20.9715, 105.7725],
+        "Nam Từ Liêm":  [21.0125, 105.7650],
+        "Bắc Từ Liêm":  [21.0665, 105.7460]
+        };
+        if (toaDoQuocDan[tenQuanHuyen]) {
+        map.setView(toaDoQuocDan[tenQuanHuyen], 14);
+        }
+        });
+        }
+
+        // ============================================================
+        // 6. ĐIỀU HƯỚNG GÓC NHÌN
+        // ============================================================
+        if (selectedKhuVuc) {
+        veVienKhuVuc(selectedKhuVuc);
+        } else if (bounds.length > 0) {
+        map.fitBounds(bounds, { padding: [50, 50] });
+        } else {
+        map.setView([21.0285, 105.8542], 12);
+        }
+        });
+    </script>
+}
+</body>
+</html>

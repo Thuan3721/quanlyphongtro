@@ -1,0 +1,26 @@
+# IDE / Visual Studio
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.db
+*.log
+*.tmp
+*.cache
+
+# Build results
+[Bb]in/
+[Oo]bj/
+*.pdb
+
+# NuGet
+packages/
+*.nupkg
+
+# Web / ASP.NET Core
+appsettings.Development.json
+node_modules/
+
+# Ảnh người dùng upload (test)
+wwwroot/images/baiDang/

@@ -1,0 +1,327 @@
+﻿@model HeThongQuanLyPhongTro.Models.HoaDon
+
+@{
+    ViewData["Title"] = "Chi tiết hóa đơn";
+
+    // ✅ TỰ ĐỘNG PHÁT HIỆN: Xem từ chuông thông báo (AJAX Modal) hay xem trực tiếp
+    var isAjax = Context.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+    if (isAjax)
+    {
+        Layout = null; // Không dùng layout khi nhúng vào modal
+    }
+
+    var hopDong = ViewBag.HopDong as HeThongQuanLyPhongTro.Models.HopDong;
+    var phong = hopDong?.PhongNavigation;
+    var soNguoi = ViewBag.SoNguoi ?? 1;
+    var chiTietHoaDons = ViewBag.ChiTietHoaDons as List<HeThongQuanLyPhongTro.Models.ChiTietHoaDon>;
+
+    var chiSoDienCu = ViewBag.ChiSoDienCu ?? 0;
+    var chiSoDienMoi = ViewBag.ChiSoDienMoi ?? 0;
+    var chiSoNuocCu = ViewBag.ChiSoNuocCu ?? 0;
+    var chiSoNuocMoi = ViewBag.ChiSoNuocMoi ?? 0;
+    var giaDien = ViewBag.GiaDien ?? 3500;
+    var giaNuoc = ViewBag.GiaNuoc ?? 30000;
+    var tienPhatSinh = ViewBag.TienPhatSinh ?? 0;
+
+    var soDien = Math.Max(0, Convert.ToInt32(chiSoDienMoi) - Convert.ToInt32(chiSoDienCu));
+    var soNuoc = Math.Max(0, Convert.ToInt32(chiSoNuocMoi) - Convert.ToInt32(chiSoNuocCu));
+    var tienDien = soDien * Convert.ToDecimal(giaDien);
+    var tienNuoc = soNuoc * Convert.ToDecimal(giaNuoc);
+    var tienDichVu = soNguoi * 200000;
+    var tongTien = (phong?.GiaPhong ?? 0) + tienDien + tienNuoc + tienDichVu + Convert.ToDecimal(tienPhatSinh);
+
+    var role = Context.Session.GetString("Role");
+    var isChuTro = role == "ChuTro";
+    var isKhach = role == "Khach";
+
+    // ✅ FIX KHÓA CỨNG: Lấy động hoàn toàn thông tin tài khoản ngân hàng của riêng từng Chủ trọ sở hữu tòa nhà
+    var chuTro = phong?.ToaNha?.ChuTro;
+    string tenNganHang = chuTro?.TenNganHang ?? "Techcombank";
+    string soTaiKhoan = chuTro?.SoTaiKhoan ?? "................";
+    string chuTaiKhoanRaw = chuTro?.ChuTaiKhoan ?? "Nguoi Quan Ly";
+    string chuTaiKhoanUrlEncoded = Uri.EscapeDataString(chuTaiKhoanRaw);
+}
+
+<div class="max-w-4xl mx-auto space-y-4 @(isAjax ? "p-4" : "")">
+
+    @if (isAjax)
+    {
+        <div class="mb-4 flex items-center justify-between border-b pb-3 no-print">
+            <div>
+                <h3 class="font-bold text-slate-800 text-base">Chi tiết hóa đơn #@Model.MaHoaDon.ToString("00000")</h3>
+                <p class="text-xs text-slate-400">Trạng thái hiện tại: <span class="font-bold text-orange-500">@Model.TrangThai</span></p>
+            </div>
+            <button onclick="closeNotificationModal()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-all">
+                <i class="fas fa-times mr-1"></i> Đóng
+            </button>
+        </div>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-3 rounded shadow-sm">
+            <i class="fas fa-check-circle mr-2"></i> @TempData["Success"]
+        </div>
+    }
+    @if (TempData["Warning"] != null)
+    {
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-3 rounded shadow-sm">
+            <i class="fas fa-exclamation-triangle mr-2"></i> @TempData["Warning"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-3 rounded shadow-sm">
+            <i class="fas fa-exclamation-circle mr-2"></i> @TempData["Error"]
+        </div>
+    }
+
+    @if (Model.TrangThai == "Đã thanh toán")
+    {
+        <div class="bg-green-100 text-green-800 p-3 text-center rounded-lg font-medium border border-green-200">
+            Hóa đơn này đã được xác nhận thanh toán thành công.
+        </div>
+    }
+
+    @if (!isAjax && isChuTro && Model.TrangThai == "Chưa thanh toán")
+    {
+        <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 shadow-sm">
+            <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                Cập nhật chỉ số điện nước
+            </h4>
+            <form asp-action="CapNhatChiTietHoaDon" method="post" id="frmCapNhat">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="maHoaDon" value="@Model.MaHoaDon" />
+                <input type="hidden" name="soNguoi" value="@soNguoi" />
+                <input type="hidden" id="chiSoDienCu" value="@chiSoDienCu" />
+                <input type="hidden" id="chiSoNuocCu" value="@chiSoNuocCu" />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-600 font-bold block mb-1">Ngày lập phiếu</label>
+                        <input type="date" name="ngayLapPhieu" id="ngayLapPhieu"
+                               class="w-full p-2 border rounded-lg font-mono focus:ring-2 focus:ring-blue-500"
+                               value="@(Model.NgayTao?.ToString("yyyy-MM-dd") ?? DateTime.Now.ToString("yyyy-MM-dd"))" required />
+                    </div>
+                    <div class="bg-gray-200/60 p-2.5 rounded-lg">
+                        <label class="text-xs text-gray-600 font-bold block mb-1">Điện cũ (kWh)</label>
+                        <input type="text" class="w-full p-2 bg-gray-100 border rounded-lg font-mono text-gray-500" value="@chiSoDienCu" readonly disabled />
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-600 font-bold block mb-1">Điện mới (kWh)</label>
+                        <input type="number" name="chiSoDienMoi" id="chiSoDienMoi" class="w-full p-2 border rounded-lg font-mono focus:ring-2 focus:ring-blue-500" value="@chiSoDienMoi" />
+                    </div>
+                    <div class="bg-gray-200/60 p-2.5 rounded-lg">
+                        <label class="text-xs text-gray-600 font-bold block mb-1">Nước cũ (m³)</label>
+                        <input type="text" class="w-full p-2 bg-gray-100 border rounded-lg font-mono text-gray-500" value="@chiSoNuocCu" readonly disabled />
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-600 font-bold block mb-1">Nước mới (m³)</label>
+                        <input type="number" name="chiSoNuocMoi" id="chiSoNuocMoi" class="w-full p-2 border rounded-lg font-mono focus:ring-2 focus:ring-blue-500" value="@chiSoNuocMoi" />
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-600 font-bold block mb-1">Đơn giá điện (đ/kWh)</label>
+                        <input type="number" name="giaDien" id="giaDien" class="w-full p-2 border rounded-lg font-mono" value="@giaDien" />
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-600 font-bold block mb-1">Đơn giá nước (đ/m³)</label>
+                        <input type="number" name="giaNuoc" id="giaNuoc" class="w-full p-2 border rounded-lg font-mono" value="@giaNuoc" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-600 font-bold block mb-1">Phí phát sinh (VNĐ)</label>
+                        <input type="number" name="tienPhatSinh" id="tienPhatSinh" class="w-full p-2 border rounded-lg font-mono" value="@tienPhatSinh" />
+                    </div>
+                </div>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition-all shadow-sm">Cập nhật chỉ số</button>
+            </form>
+        </div>
+    }
+
+    @if (!isAjax && isKhach && Model.TrangThai == "Chưa thanh toán")
+    {
+        var qrUrl = $"https://img.vietqr.io/image/{tenNganHang}-{soTaiKhoan}-compact.png?amount={tongTien}&addInfo=TT_HD{Model.MaHoaDon:D5}_{Model.Thang}{Model.Nam}&accountName={chuTaiKhoanUrlEncoded}";
+
+        <div class="bg-white rounded-xl shadow p-5 text-center border border-gray-100">
+            <h3 class="font-bold text-lg mb-3 text-slate-800">Quét mã QR để thanh toán nhanh</h3>
+            <img src="@qrUrl" class="mx-auto w-48 h-48 border rounded-lg shadow-sm" onerror="this.onerror=null; this.src='https://placehold.co/200x200?text=QR+Code'" />
+            <div class="mt-4 text-left bg-gray-50 p-4 rounded-xl text-sm space-y-1 text-gray-700 border">
+                <p><strong>Ngân hàng:</strong> @tenNganHang</p>
+                <p><strong>Số tài khoản:</strong> @soTaiKhoan</p>
+                <p><strong>Chủ tài khoản:</strong> @chuTaiKhoanRaw</p>
+                <p><strong>Nội dung chuyển khoản:</strong> <span class="font-mono text-blue-600 font-bold">TT_HD @Model.MaHoaDon.ToString("00000")</span></p>
+                <p><strong>Số tiền:</strong> <span class="font-bold text-red-600 text-base" id="qrSoTien">@tongTien.ToString("N0") đ</span></p>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">* Mở ứng dụng ngân hàng, chọn tính năng "Quét mã QR" để thanh toán tự động.</p>
+        </div>
+    }
+
+    @if (!isAjax && isKhach && Model.TrangThai == "Chưa thanh toán" && Model.KhachXacNhan != true)
+    {
+        <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+            <p class="text-yellow-800 font-medium mb-2 text-sm">Lưu ý: Sau khi thực hiện chuyển khoản thành công, bạn vui lòng nhấn nút dưới đây để thông báo hệ thống!</p>
+            <form method="post" asp-action="KhachXacNhan" asp-controller="HoaDon">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.MaHoaDon" />
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-lg w-full transition-colors shadow-sm text-sm">
+                    <i class="fas fa-check-circle mr-2"></i> Xác nhận tôi đã chuyển khoản thành công
+                </button>
+            </form>
+        </div>
+    }
+
+    @if (isChuTro && Model.KhachXacNhan == true && Model.TrangThai == "Chưa thanh toán")
+    {
+        <div class="bg-green-50 border border-green-200 rounded-xl p-5 shadow-sm no-print">
+            <p class="text-green-800 font-bold mb-3 text-sm flex items-center gap-1.5">
+                <i class="fas fa-check-circle text-base"></i> Khách thuê phòng đã nhấn xác nhận chuyển khoản. Vui lòng kiểm tra biến động số dư tài khoản của bạn!
+            </p>
+            <form method="post" asp-action="ChuXacNhan" asp-controller="HoaDon" class="m-0">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.MaHoaDon" />
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-black px-5 py-3 rounded-xl w-full transition-all shadow-md text-base flex items-center justify-center gap-2">
+                    <i class="fas fa-money-bill-wave text-lg"></i> Xác nhận đã nhận đủ tiền (Duyệt hóa đơn)
+                </button>
+            </form>
+        </div>
+    }
+
+    <div id="hoaDon" class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8">
+        <div class="text-center border-b pb-4 mb-6">
+            <h1 class="font-black text-2xl text-gray-800 tracking-tight">PHÒNG TRỌ XINH</h1>
+            <p class="text-gray-400 text-xs mt-1 uppercase font-semibold tracking-wider">Hệ thống quản lý vận hành tòa nhà</p>
+            <div class="my-4 border-t border-dashed border-gray-200"></div>
+            <h2 class="font-extrabold text-xl text-slate-800">HÓA ĐƠN TIỀN PHÒNG & DỊCH VỤ</h2>
+            <p class="text-gray-500 font-mono text-sm mt-1">Số phiếu: <span class="font-bold text-gray-700">#@Model.MaHoaDon.ToString("00000")</span></p>
+        </div>
+
+        <div class="mb-6 bg-slate-50 p-4 rounded-xl border border-gray-100 text-sm text-gray-600">
+            <table class="w-full space-y-2">
+                <tr><td class="w-28 font-medium py-1">Tên phòng:</td><td><strong class="text-slate-900 font-bold text-base">@phong?.TenPhong</strong></td></tr>
+                <tr><td class="font-medium py-1">Khách thuê:</td><td><strong class="text-slate-800">@hopDong?.KhachHangNavigation?.HoTen</strong></td></tr>
+                <tr><td class="font-medium py-1">Số điện thoại:</td><td class="font-mono">@hopDong?.KhachHangNavigation?.SoDienThoai</td></tr>
+                <tr><td class="font-medium py-1">Kỳ hóa đơn:</td><td class="font-medium text-slate-800">Tháng @Model.Thang / Năm @Model.Nam</td></tr>
+                <tr><td class="font-medium py-1">Ngày lập phiếu:</td><td>@(Model.NgayTao?.ToString("dd/MM/yyyy") ?? DateTime.Now.ToString("dd/MM/yyyy"))</td></tr>
+                <tr>
+                    <td class="font-medium py-1">Hạn đóng tiền:</td>
+                    <td class="text-rose-600 font-semibold">
+                        @{
+                            // Lấy ngày lập phiếu (mặc định là 25), sau đó cộng thêm 1 tháng và lấy ngày 10
+                            DateTime ngayLap = Model.NgayTao ?? DateTime.Now;
+                            DateTime hanDongTien = new DateTime(ngayLap.Year, ngayLap.Month, 1).AddMonths(1).AddDays(9);
+                        }
+                        @hanDongTien.ToString("dd/MM/yyyy")
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead>
+                    <tr class="bg-gray-100 text-gray-700 font-bold border-b border-gray-200">
+                        <th class="p-3">Tiêu đề khoản thu</th>
+                        <th class="p-3">Chi tiết mô tả chỉ số</th>
+                        <th class="p-3 text-right">Đơn giá</th>
+                        <th class="p-3 text-right">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 text-gray-700">
+                    <tr>
+                        <td class="p-3 font-semibold text-gray-800">Tiền phòng</td>
+                        <td class="p-3">Thu tiền thuê phòng @phong?.TenPhong</td>
+                        <td class="p-3 text-right">@phong?.GiaPhong.ToString("N0") đ</td>
+                        <td class="p-3 text-right font-medium">@phong?.GiaPhong.ToString("N0") đ</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-semibold text-gray-800">Tiền điện</td>
+                        <td class="p-3 text-gray-500" id="moTaDien">Số điện:` <span id="soDienSpan" class="font-mono font-bold text-gray-800">@soDien</span> kWh × <span id="giaDienSpan" class="font-mono">@giaDien.ToString("N0")</span> đ</td>
+                        <td class="p-3 text-right font-mono">@giaDien.ToString("N0") đ</td>
+                        <td class="p-3 text-right font-bold text-slate-800" id="tienDienTd">@tienDien.ToString("N0") đ</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-semibold text-gray-800">Tiền nước</td>
+                        <td class="p-3 text-gray-500" id="moTaNuoc">Số nước:` <span id="soNuocSpan" class="font-mono font-bold text-gray-800">@soNuoc</span> m³ × <span id="giaNuocSpan" class="font-mono">@giaNuoc.ToString("N0")</span> đ</td>
+                        <td class="p-3 text-right font-mono">@giaNuoc.ToString("N0") đ</td>
+                        <td class="p-3 text-right font-bold text-slate-800" id="tienNuocTd">@tienNuoc.ToString("N0") đ</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-semibold text-gray-800">Phí dịch vụ</td>
+                        <td class="p-3 text-gray-500">Phí vệ sinh, máy giặt chung (@soNguoi người × 200.000đ)</td>
+                        <td class="p-3 text-right">200.000 đ</td>
+                        <td class="p-3 text-right font-medium">@tienDichVu.ToString("N0") đ</td>
+                    </tr>
+                    @if (tienPhatSinh > 0)
+                    {
+                        <tr>
+                            <td class="p-3 font-semibold text-gray-800">Phí phát sinh</td>
+                            <td class="p-3 text-gray-500">Chi phí hỏng hóc, sửa chữa thiết bị phát sinh</td>
+                            <td class="p-3 text-right">@tienPhatSinh.ToString("N0") đ</td>
+                            <td class="p-3 text-right font-medium">@tienPhatSinh.ToString("N0") đ</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="border-t-2 border-gray-300 bg-amber-50/50 font-bold">
+                        <td colspan="3" class="p-3 text-right text-gray-800 font-extrabold">Tổng tiền cần thanh toán:</td>
+                        <td class="p-3 text-right text-red-600 font-black text-lg" id="tongCongTd">@tongTien.ToString("N0") đ</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-gray-100 text-center text-sm text-gray-400 italic">
+            <p>Vui lòng thanh toán hóa đơn đúng hạn quy định của tòa nhà. Xin cảm ơn!</p>
+            <p class="font-bold text-gray-700 not-italic mt-1">Phòng Trọ Xinh</p>
+        </div>
+    </div>
+
+    @if (!isAjax)
+    {
+        <div class="text-center mt-6">
+            <a href="@Url.Action("XuatPdf", "HoaDon", new { id = Model.MaHoaDon })" target="_blank" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-5 py-2 rounded-xl inline-flex items-center shadow-sm transition-all text-sm">
+                <i class="fas fa-file-pdf mr-2"></i> Xuất file PDF hóa đơn
+            </a>
+        </div>
+    }
+</div>
+
+<script>
+    var giaPhong = @(phong?.GiaPhong ?? 0);
+    var soNguoi = @soNguoi;
+    var chiSoDienCu = @chiSoDienCu;
+    var chiSoNuocCu = @chiSoNuocCu;
+
+    function tinhTien() {
+        let dienMoi = parseFloat(document.getElementById('chiSoDienMoi')?.value) || 0;
+        let nuocMoi = parseFloat(document.getElementById('chiSoNuocMoi')?.value) || 0;
+        let gDien = parseFloat(document.getElementById('giaDien')?.value) || 0;
+        let gNuoc = parseFloat(document.getElementById('giaNuoc')?.value) || 0;
+        let phatSinh = parseFloat(document.getElementById('tienPhatSinh')?.value) || 0;
+
+        let soDien = Math.max(0, dienMoi - chiSoDienCu);
+        let soNuoc = Math.max(0, nuocMoi - chiSoNuocCu);
+        let tienDien = soDien * gDien;
+        let tienNuoc = soNuoc * gNuoc;
+        let tienDichVu = soNguoi * 200000;
+        let tong = giaPhong + tienDien + tienNuoc + tienDichVu + phatSinh;
+
+        document.getElementById('soDienSpan').innerText = soDien;
+        document.getElementById('giaDienSpan').innerText = gDien.toLocaleString('vi-VN');
+        document.getElementById('tienDienTd').innerText = tienDien.toLocaleString('vi-VN') + ' đ';
+
+        document.getElementById('soNuocSpan').innerText = soNuoc;
+        document.getElementById('giaNuocSpan').innerText = gNuoc.toLocaleString('vi-VN');
+        document.getElementById('tienNuocTd').innerText = tienNuoc.toLocaleString('vi-VN') + ' đ';
+
+        document.getElementById('tongCongTd').innerText = tong.toLocaleString('vi-VN') + ' đ';
+
+        let qrSoTien = document.getElementById('qrSoTien');
+        if (qrSoTien) qrSoTien.innerText = tong.toLocaleString('vi-VN') + ' đ';
+    }
+
+    var inputs = ['chiSoDienMoi', 'chiSoNuocMoi', 'giaDien', 'giaNuoc', 'tienPhatSinh'];
+    inputs.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('input', tinhTien);
+    });
+</script>

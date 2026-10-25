@@ -1,0 +1,150 @@
+﻿@model HeThongQuanLyPhongTro.Models.YeuCauSuaChua
+
+@{
+    // Tự động phát hiện xem trang được mở qua AJAX (Modal) hay mở trực tiếp trên tab mới
+    var isAjax = Context.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+    if (isAjax)
+    {
+        Layout = null; // Ẩn layout chứa sidebar/header khi cho vào Modal tránh trùng lặp
+    }
+    else
+    {
+        ViewData["Title"] = "Chi tiết yêu cầu sửa chữa";
+        Layout = "_Layout";
+    }
+}
+
+<style>
+    /* Ẩn nút mũi tên tăng giảm của input type="number" */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+<div class="p-6 max-w-4xl mx-auto bg-slate-50 rounded-2xl">
+    <div class="mb-6 flex items-center justify-between">
+        <div>
+            
+            <h2 class="text-xl text-slate-400">Mã yêu cầu: #@Model.MaYeuCau - Cập nhật lúc @Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</h2>
+        </div>
+
+        @if (isAjax)
+        {
+            <!-- Nếu ở trong modal, nút này sẽ đóng modal -->
+            <button onclick="closeNotificationModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold rounded-lg transition-all flex items-center gap-1">
+                <i class="fas fa-times"></i> Đóng cửa sổ
+            </button>
+        }
+        else
+        {
+            <!-- Nếu xem ở trang độc lập bình thường -->
+            <a href="@Url.Action("Index")" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-all flex items-center gap-1">
+                <i class="fas fa-arrow-left"></i> Quay lại danh sách
+            </a>
+        }
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="md:col-span-2 space-y-6">
+            <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="px-2.5 py-1 text-xs font-bold rounded-md
+                        @(Model.TrangThai == "Chờ xử lý" ? "bg-amber-50 text-amber-700 border border-amber-200" :
+                              Model.TrangThai == "Đã tiếp nhận" ? "bg-blue-50 text-blue-700 border border-blue-200" :
+                              "bg-emerald-50 text-emerald-700 border border-emerald-200")">
+                        @Model.TrangThai
+                    </span>
+                    <h3 class="text-base font-bold text-slate-800">@Model.TieuDe</h3>
+                </div>
+
+                <div class="text-sm text-slate-600 leading-relaxed bg-slate-50 rounded-xl p-4 mb-4 whitespace-pre-line">
+                    @Model.NoiDung
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.HinhAnh))
+                {
+                    <div class="mt-4">
+                        <p class="text-xs font-semibold text-slate-500 mb-2">Hình ảnh hiện trạng:</p>
+                        <img src="@Model.HinhAnh" class="rounded-xl w-full max-h-80 object-cover border border-slate-200" alt="Hình ảnh sửa chữa" />
+                    </div>
+                }
+            </div>
+
+            <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+                <h3 class="text-sm font-bold text-slate-800 mb-4 flex items-center gap-1.5">
+                    <i class="fas fa-tools text-indigo-500"></i> Cập nhật tiến độ xử lý
+                </h3>
+                <form action="@Url.Action("XuLy", "YeuCauSuaChua")" method="post" class="space-y-4">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.MaYeuCau" />
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Trạng thái mới</label>
+                        <select name="trangThai" class="w-full text-xs p-2.5 border border-slate-200 rounded-xl bg-slate-50 font-medium focus:outline-none focus:border-indigo-500">
+                            <option value="Chờ xử lý" selected="@(Model.TrangThai == "Chờ xử lý")">Chờ xử lý</option>
+                            <option value="Đã tiếp nhận" selected="@(Model.TrangThai == "Đã tiếp nhận")">Đã tiếp nhận</option>
+                            <option value="Đã hoàn thành" selected="@(Model.TrangThai == "Đã hoàn thành")">Đã hoàn thành</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Chi phí phát sinh (đ)</label>
+                        <input type="number" name="chiPhiPhatSinh"
+                               value="@(Model.ChiPhiPhatSinh > 0 ? Convert.ToInt64(Model.ChiPhiPhatSinh) : "")"
+                               class="w-full text-xs p-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:border-indigo-500"
+                               placeholder="Nhập số tiền phát sinh (ví dụ: 50000)..." />
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Ghi chú phản hồi cho khách</label>
+                        <textarea name="ghiChu" rows="3" class="w-full text-xs p-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:border-indigo-500" placeholder="Ví dụ: Đã cho thợ qua sửa vòi nước vào chiều nay...">@Model.GhiChuXuLy</textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-md transition-all">
+                        Cập nhật kết quả xử lý
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Thông tin phòng thuê</h3>
+                <div class="space-y-2.5 text-xs font-medium">
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Tên phòng:</span>
+                        <span class="text-slate-800 font-bold">@Model.PhongNavigation?.TenPhong</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Thuộc tòa nhà:</span>
+                        <span class="text-slate-800">@Model.PhongNavigation?.ToaNha?.TenToaNha</span>
+                    </div>
+                    <div class="flex flex-col gap-1 pt-1 border-t border-slate-50">
+                        <span class="text-slate-500">Địa chỉ cụ thể:</span>
+                        <span class="text-slate-800 leading-relaxed font-semibold bg-slate-50 p-2 rounded-lg mt-0.5"><i class="fas fa-map-marker-alt text-red-500 mr-1"></i>@Model.PhongNavigation?.ToaNha?.DiaChi</span>
+                    </div>
+                </div>
+
+                <hr class="my-4 border-slate-100" />
+
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Người gửi yêu cầu</h3>
+                <div class="space-y-2.5 text-xs font-medium">
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Khách hàng:</span>
+                        <span class="text-slate-800 font-bold">@Model.KhachHangNavigation?.HoTen</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Số điện thoại:</span>
+                        <span class="text-slate-800 text-indigo-600 font-bold">@Model.KhachHangNavigation?.SoDienThoai</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

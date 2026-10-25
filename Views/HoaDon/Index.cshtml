@@ -1,0 +1,274 @@
+﻿@model IEnumerable<HeThongQuanLyPhongTro.Models.HoaDon>
+
+@{
+    ViewData["Title"] = "Quản lý hóa đơn";
+}
+
+<div class="p-2">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <a href="@Url.Action("TaoHangLoat", "HoaDon")" style="background: #28a745; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none;">+ Tạo hàng loạt</a>
+        <span style="color: #6c757d; font-size: 14px;">
+            Tổng số: <strong>@ViewBag.TotalItems</strong> hóa đơn
+        </span>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div style="background: #d4edda; padding: 10px; margin-bottom: 20px; border-radius: 5px; color: #155724;">
+            @TempData["Success"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div style="background: #f8d7da; padding: 10px; margin-bottom: 20px; border-radius: 5px; color: #721c24;">
+            @TempData["Error"]
+        </div>
+    }
+
+    <!-- Bộ lọc -->
+    <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px;">
+        <form method="get" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;">
+            <input type="text" name="searchString" value="@ViewBag.SearchString" placeholder="Tìm theo tên KH, phòng..." style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+            <select name="thang" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <option value="">-- Tháng --</option>
+                @for (int i = 1; i <= 12; i++)
+                {
+                    if (ViewBag.Thang == i)
+                    {
+                        <option value="@i" selected>Tháng @i</option>
+                    }
+                    else
+                    {
+                        <option value="@i">Tháng @i</option>
+                    }
+                }
+            </select>
+            <select name="nam" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <option value="">-- Năm --</option>
+                @if (ViewBag.NamList != null)
+                {
+                    foreach (var nam in ViewBag.NamList as List<int> ?? new List<int>())
+                    {
+                        if (ViewBag.Nam == nam)
+                        {
+                            <option value="@nam" selected>@nam</option>
+                        }
+                        else
+                        {
+                            <option value="@nam">@nam</option>
+                        }
+                    }
+                }
+            </select>
+            <select name="trangThai" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                @foreach (var item in ViewBag.TrangThaiList)
+                {
+                    if (ViewBag.TrangThai == item)
+                    {
+                        <option value="@item" selected>@item</option>
+                    }
+                    else
+                    {
+                        <option value="@item">@item</option>
+                    }
+                }
+            </select>
+            <button type="submit" style="background: #007bff; color: white; border: none; padding: 8px; border-radius: 4px;">Tìm kiếm</button>
+        </form>
+    </div>
+
+    <!-- Bảng hóa đơn -->
+    <div style="background: white; border-radius: 8px; border: 1px solid #ddd; overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead style="background: #f8f9fa;">
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <th style="padding: 12px; text-align: left;">Mã HĐ</th>
+                    <th style="padding: 12px; text-align: left;">Phòng</th>
+                    <th style="padding: 12px; text-align: left;">Khách hàng</th>
+                    <th style="padding: 12px; text-align: left;">Tháng/Năm</th>
+                    <th style="padding: 12px; text-align: right;">Tổng tiền</th>
+                    <th style="padding: 12px; text-align: center;">Trạng thái</th>
+                    <th style="padding: 12px; text-align: center;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 12px;">@item.MaHoaDon</td>
+                        <td style="padding: 12px;">@(item.HopDongNavigation?.PhongNavigation?.TenPhong ?? "N/A")</td>
+                        <td style="padding: 12px;">@(item.HopDongNavigation?.KhachHangNavigation?.HoTen ?? "N/A")</td>
+                        <td style="padding: 12px;">@item.Thang/@item.Nam</td>
+                        <td style="padding: 12px; text-align: right;">@(item.TongTien?.ToString("N0") ?? "0") đ</td>
+                        <td style="padding: 12px; text-align: center;">
+                            @if (item.TrangThai == "Đã thanh toán")
+                            {
+                                <span style="background: #d4edda; color: #155724; padding: 4px 8px; border-radius: 4px;">✅ Đã thanh toán</span>
+                            }
+                            else
+                            {
+                                <span style="background: #f8d7da; color: #721c24; padding: 4px 8px; border-radius: 4px;">⏳ Chưa thanh toán</span>
+                            }
+                        </td>
+                        <td style="padding: 12px; text-align: center;">
+                            <a href="@Url.Action("Details", new { id = item.MaHoaDon })" style="color: #007bff; margin-right: 10px;">Chi tiết</a>
+                            @if (item.TrangThai == "Chưa thanh toán")
+                            {
+                                <button type="button"
+                                        onclick="moPopupXoaHoaDon('/HoaDon/Delete/@item.MaHoaDon', '@item.MaHoaDon.ToString("D5")', '@(item.HopDongNavigation?.PhongNavigation?.TenPhong ?? "N/A")', '@(item.TongTien?.ToString("N0") ?? "0")')"
+                                        style="color: #dc3545; background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: inherit; font-size: inherit;">
+                                    Xóa
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (!Model.Any())
+        {
+            <div style="text-align: center; padding: 40px; color: #666;">Không có hóa đơn nào</div>
+        }
+    </div>
+
+    <!-- PHÂN TRANG -->
+    @if (ViewBag.TotalPages != null && ViewBag.TotalPages > 1)
+    {
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; margin-top: 20px; border-top: 1px solid #e5e7eb; flex-wrap: wrap; gap: 10px;">
+            <div style="color: #6b7280; font-size: 14px;">
+                Hiển thị @Model.Count() trên tổng số <strong>@ViewBag.TotalItems</strong> hóa đơn
+            </div>
+
+            <nav>
+                <ul style="display: flex; list-style: none; padding: 0; margin: 0; gap: 2px;">
+                    @if (ViewBag.PageNumber > 1)
+                    {
+                        <li style="display: inline;">
+                            <a href="@Url.Action("Index", new { pageNumber = 1, searchString = ViewBag.SearchString, thang = ViewBag.Thang, nam = ViewBag.Nam, trangThai = ViewBag.TrangThai })"
+                               style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 4px; text-decoration: none; color: #374151; background: white;">Đầu</a>
+                        </li>
+                        <li style="display: inline;">
+                            <a href="@Url.Action("Index", new { pageNumber = ViewBag.PageNumber - 1, searchString = ViewBag.SearchString, thang = ViewBag.Thang, nam = ViewBag.Nam, trangThai = ViewBag.TrangThai })"
+                               style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 4px; text-decoration: none; color: #374151; background: white;">‹</a>
+                        </li>
+                    }
+
+                    @{
+                        int startPage = Math.Max(1, ViewBag.PageNumber - 2);
+                        int endPage = Math.Min(ViewBag.TotalPages, ViewBag.PageNumber + 2);
+
+                        if (startPage > 1)
+                        {
+                            <li style="display: inline; padding: 8px 12px;">...</li>
+                        }
+
+                        for (int i = startPage; i <= endPage; i++)
+                        {
+                            if (i == ViewBag.PageNumber)
+                            {
+                                <li style="display: inline;">
+                                    <span style="padding: 8px 12px; border: 1px solid #2563eb; border-radius: 4px; background: #2563eb; color: white;">@i</span>
+                                </li>
+                            }
+                            else
+                            {
+                                <li style="display: inline;">
+                                    <a href="@Url.Action("Index", new { pageNumber = i, searchString = ViewBag.SearchString, thang = ViewBag.Thang, nam = ViewBag.Nam, trangThai = ViewBag.TrangThai })"
+                                       style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 4px; text-decoration: none; color: #374151; background: white;">@i</a>
+                                </li>
+                            }
+                        }
+
+                        if (endPage < ViewBag.TotalPages)
+                        {
+                            <li style="display: inline; padding: 8px 12px;">...</li>
+                        }
+                    }
+
+                    @if (ViewBag.PageNumber < ViewBag.TotalPages)
+                    {
+                        <li style="display: inline;">
+                            <a href="@Url.Action("Index", new { pageNumber = ViewBag.PageNumber + 1, searchString = ViewBag.SearchString, thang = ViewBag.Thang, nam = ViewBag.Nam, trangThai = ViewBag.TrangThai })"
+                               style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 4px; text-decoration: none; color: #374151; background: white;">›</a>
+                        </li>
+                        <li style="display: inline;">
+                            <a href="@Url.Action("Index", new { pageNumber = ViewBag.TotalPages, searchString = ViewBag.SearchString, thang = ViewBag.Thang, nam = ViewBag.Nam, trangThai = ViewBag.TrangThai })"
+                               style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 4px; text-decoration: none; color: #374151; background: white;">Cuối</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+</div>
+
+<!-- Popup xóa hóa đơn -->
+<div id="deleteHoaDonModal" style="position: fixed; inset: 0; background-color: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); z-index: 50; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; pointer-events: none;">
+    <div style="background: white; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); width: 100%; max-width: 32rem; margin: 0 16px; overflow: hidden; transform: scale(0.95); transition: transform 0.3s ease; border: 1px solid #f1f5f9;">
+        <div style="padding: 20px; background: #f8fafc; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; font-weight: bold; color: #1e293b; font-size: 16px; font-family: sans-serif;">
+                Xác nhận gỡ bỏ hóa đơn phòng trọ
+            </h3>
+            <button onclick="dongPopupXoaHoaDon()" style="background: none; border: none; color: #94a3b8; cursor: pointer; padding: 6px; font-size: 16px;">✕</button>
+        </div>
+        <div style="padding: 24px; font-family: sans-serif; font-size: 14px; color: #475569; line-height: 1.6;">
+            <p style="margin: 0 0 16px 0;">Bạn có chắc chắn muốn xóa vĩnh viễn hóa đơn này khỏi lịch sử quản lý thu chi không?</p>
+
+            <div style="background: rgba(239, 68, 68, 0.04); border: 1px solid #fee2e2; border-radius: 12px; padding: 16px; font-weight: 500; color: #334155;">
+                <div style="margin-bottom: 8px;">Mã hóa đơn: <span style="color: #0f172a; font-weight: bold;" id="popupInvoiceCode">N/A</span></div>
+                <div style="margin-bottom: 8px;">Áp dụng cho: <span style="color: #2563eb; font-weight: bold;" id="popupInvoiceRoom">N/A</span></div>
+                <div>Tổng tiền khoản thu: <span style="color: #dc2626; font-weight: bold;" id="popupInvoiceAmount">0</span><span style="color: #dc2626; font-weight: bold;"> đ</span></div>
+            </div>
+
+            <p style="margin: 16px 0 0 0; font-size: 12px; color: #94a3b8;">Cảnh báo: Toàn bộ bảng kê dữ liệu chỉ số điện nước chi tiết đi kèm hóa đơn này cũng sẽ bị xóa sạch và không thể phục hồi lại tự động.</p>
+        </div>
+        <div style="padding: 16px 24px; background: #f8fafc; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end; gap: 10px;">
+            <button onclick="dongPopupXoaHoaDon()" type="button" style="padding: 8px 16px; background: #e2e8f0; color: #334155; border: none; font-weight: bold; font-size: 12px; border-radius: 12px; cursor: pointer;">
+                Hủy
+            </button>
+            <a id="btnConfirmDeleteHoaDon" href="#" style="padding: 8px 16px; background: #ef4444; color: white; border: none; font-weight: bold; font-size: 12px; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                Xác nhận xóa
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function moPopupXoaHoaDon(deleteUrl, invoiceCode, roomName, amount) {
+        document.getElementById('popupInvoiceCode').innerText = '#' + invoiceCode;
+        document.getElementById('popupInvoiceRoom').innerText = roomName;
+        document.getElementById('popupInvoiceAmount').innerText = amount;
+
+        const confirmBtn = document.getElementById('btnConfirmDeleteHoaDon');
+        confirmBtn.setAttribute('href', deleteUrl);
+
+        const modal = document.getElementById('deleteHoaDonModal');
+        modal.style.display = 'flex';
+        modal.style.pointerEvents = 'auto';
+        setTimeout(() => {
+            modal.style.opacity = '1';
+            modal.querySelector('div').style.transform = 'scale(1)';
+        }, 10);
+
+        confirmBtn.onclick = function() {
+            this.style.pointerEvents = 'none';
+            this.innerText = 'Đang xóa...';
+        };
+    }
+
+    function dongPopupXoaHoaDon() {
+        const modal = document.getElementById('deleteHoaDonModal');
+        modal.style.opacity = '0';
+        modal.querySelector('div').style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.style.pointerEvents = 'none';
+        }, 300);
+    }
+
+    window.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            dongPopupXoaHoaDon();
+        }
+    });
+</script>

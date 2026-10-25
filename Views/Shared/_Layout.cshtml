@@ -1,0 +1,539 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hệ thống quản lý phòng trọ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+        font-family: 'Inter', sans-serif;
+        }
+
+        .sidebar::-webkit-scrollbar {
+        width: 5px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+        background: #2d3748;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+        background: #4a5568;
+        border-radius: 5px;
+        }
+
+        .transition-all {
+        transition: all 0.3s ease;
+        }
+
+        /* CSS Dropdown chung */
+        .dropdown-menu {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.2s ease;
+        }
+
+        .group:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        }
+
+        #listThongBao::-webkit-scrollbar {
+        width: 4px;
+        }
+
+        #listThongBao::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        }
+
+        #listThongBao::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    @{
+        var role = Context.Session.GetString("Role");
+        var username = Context.Session.GetString("Username");
+        var isAdmin = (role == "Admin" || role == "SuperAdmin");
+        var isChuTro = (role == "ChuTro");
+        var isKhach = (role == "Khach");
+    }
+
+    @if (isAdmin || isChuTro)
+    {
+        <div class="flex h-screen overflow-hidden w-full relative">
+
+            <div id="sidebarOverlay" class="fixed inset-0 bg-gray-900/50 z-40 hidden lg:hidden transition-opacity"></div>
+
+            <div id="sidebar" class="w-72 bg-gradient-to-b from-gray-900 to-gray-800 text-white flex flex-col shadow-2xl sidebar overflow-y-auto fixed inset-y-0 left-0 z-50 transform -translate-x-full lg:relative lg:translate-x-0 transition-transform duration-300 ease-in-out">
+                <div class="p-6 border-b border-gray-700 relative">
+                    <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-gray-400 hover:text-white p-2 focus:outline-none">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-building text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold tracking-wide">Phòng Trọ Xinh</h1>
+                            <p class="text-xs text-gray-400">Quản lý phòng trọ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="flex-1 px-3 py-6 space-y-1">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider px-3 pb-2">Trang chính</p>
+                    <a asp-controller="Dashboard" asp-action="Index" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                        <i class="fas fa-chart-pie w-5 h-5 mr-3 text-gray-400"></i><span>Dashboard</span>
+                    </a>
+
+                    @if (isAdmin)
+                    {
+                        <p class="text-xs text-gray-500 uppercase tracking-wider px-3 pt-4 pb-2">Quản lý hệ thống</p>
+                        <a asp-controller="CoSo" asp-action="Index" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-map-marked-alt w-5 h-5 mr-3 text-gray-400"></i><span>Quản lý Cơ sở</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="DanhSachChuTro" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-user-tie w-5 h-5 mr-3 text-gray-400"></i><span>Quản lý Chủ trọ</span>
+                        </a>
+                        <a asp-controller="BaiDang" asp-action="Index" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-newspaper w-5 h-5 mr-3 text-gray-400"></i><span>Duyệt bài đăng</span>
+                        </a>
+                    }
+
+                    @if (isChuTro)
+                    {
+                        <p class="text-xs text-gray-500 uppercase tracking-wider px-3 pt-2 pb-2">Quản lý tòa nhà</p>
+                        <a asp-controller="ToaNha" asp-action="Index" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-building w-5 h-5 mr-3 text-gray-400"></i><span>Tòa nhà</span>
+                        </a>
+                        <a asp-controller="Phong" asp-action="Index" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-door-open w-5 h-5 mr-3 text-gray-400"></i><span>Phòng trọ</span>
+                        </a>
+                        <a asp-controller="CoSoVatChats" asp-action="Index" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-microchip w-5 h-5 mr-3 text-gray-400"></i><span>Cơ sở vật chất</span>
+                        </a>
+                        <a asp-controller="YeuCauSuaChua" asp-action="Index" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-tools w-5 h-5 mr-3 text-gray-400"></i><span>Yêu cầu sửa chữa</span>
+                        </a>
+                        <a asp-controller="BaiDang" asp-action="Index" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-newspaper w-5 h-5 mr-3 text-gray-400"></i><span>Bài đăng</span>
+                        </a>
+
+                        <p class="text-xs text-gray-500 uppercase tracking-wider px-3 pt-4 pb-2">Quản lý khách hàng</p>
+                        <a asp-controller="HopDong" asp-action="Index" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-file-contract w-5 h-5 mr-3 text-gray-400"></i><span>Hợp đồng</span>
+                        </a>
+                        <a asp-controller="KhachHang" asp-action="QuanLy" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-users w-5 h-5 mr-3 text-gray-400"></i><span>Khách hàng</span>
+                        </a>
+                        <a asp-controller="Dashboard" asp-action="QuanLyNguoiO" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-address-card w-5 h-5 mr-3 text-gray-400"></i><span>Quản lý người ở</span>
+                        </a>
+                        <a asp-controller="TaiKhoan" asp-action="DanhSachKhachHang" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-user-circle w-5 h-5 mr-3 text-gray-400"></i><span>Tài khoản khách</span>
+                        </a>
+
+                        <p class="text-xs text-gray-500 uppercase tracking-wider px-3 pt-4 pb-2">Tài chính</p>
+                        <a asp-controller="HoaDon" asp-action="Index" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-receipt w-5 h-5 mr-3 text-gray-400"></i><span>Hóa đơn</span>
+                        </a>
+                        <a asp-controller="ThanhToans" asp-action="Index" class="flex items-center px-3 py-3 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-money-bill-wave w-5 h-5 mr-3 text-gray-400"></i><span>Thanh toán</span>
+                        </a>
+                        <a asp-controller="ThongKe" asp-action="Index" class="flex items-center px-3 py-2.5 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all">
+                            <i class="fas fa-chart-pie w-5 h-5 mr-3 text-gray-400"></i><span>Thống kê doanh thu</span>
+                        </a>
+                    }
+                </nav>
+            </div>
+
+            <div class="flex-1 overflow-y-auto relative w-full h-full">
+                <header class="bg-white shadow-sm sticky top-0 z-30">
+                    <div class="flex justify-between items-center px-4 lg:px-6 py-4">
+                        <div class="flex items-center">
+
+                            <button id="mobileMenuBtn" class="mr-3 lg:hidden text-gray-700 hover:text-blue-600 focus:outline-none">
+                                <i class="fas fa-bars text-2xl"></i>
+                            </button>
+
+                            <div>
+                                <h1 class="text-lg lg:text-2xl font-bold text-gray-800 truncate max-w-[150px] sm:max-w-xs lg:max-w-full">@ViewData["Title"]</h1>
+                                <p class="text-xs text-gray-500 mt-1 hidden sm:block">Hệ thống quản lý vận hành tòa nhà</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3 lg:space-x-6">
+                            <div class="relative" id="notificationWrapper">
+                                <button id="bellButton" class="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors focus:outline-none relative">
+                                    <i class="fas fa-bell text-xl"></i>
+                                    <span id="badgeCount" class="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[20px] h-[20px] flex items-center justify-center hidden px-1 border-2 border-white shadow-sm">0</span>
+                                </button>
+
+                                <div id="bellDropdown" class="absolute right-0 mt-2 w-[280px] lg:w-80 bg-white rounded-xl shadow-2xl hidden z-50 border border-gray-100 overflow-hidden">
+                                    <div class="p-4 bg-gray-50 border-b flex justify-between items-center">
+                                        <h3 class="font-bold text-gray-700">Thông báo <span id="header-unread-count" class="text-blue-500">(0)</span></h3>
+                                        <button id="markAllRead" class="text-xs text-blue-500 hover:underline">Đánh dấu đã đọc</button>
+                                    </div>
+                                    <div id="listThongBao" class="max-h-[50vh] lg:max-h-[60vh] overflow-y-auto bg-white">
+                                        <div class="p-8 text-center text-gray-400">Đang tải...</div>
+                                    </div>
+                                    <div class="p-3 text-center border-t bg-gray-50">
+                                        <a href="@Url.Action("Index", "ThongBao")" class="text-sm text-gray-600 hover:text-blue-600">Xem tất cả</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hidden sm:block h-6 w-px bg-gray-200"></div>
+
+                            <div class="relative group">
+                                <button class="flex items-center space-x-2 lg:space-x-3 p-1.5 rounded-xl hover:bg-gray-50 transition-colors focus:outline-none">
+                                    <div class="w-8 h-8 lg:w-9 lg:h-9 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold shadow-md shadow-blue-500/10">
+                                        <i class="fas fa-user-tie text-sm"></i>
+                                    </div>
+                                    <div class="text-left hidden md:block">
+                                        <p class="text-sm font-bold text-gray-800 leading-tight">@username</p>
+                                        <p class="text-[11px] font-semibold text-blue-600 tracking-wide uppercase mt-0.5">
+                                            @(isAdmin ? "Quản trị viên" : "Chủ trọ")
+                                        </p>
+                                    </div>
+                                    <i class="fas fa-chevron-down text-xs text-gray-400 group-hover:rotate-180 transition-transform hidden md:block pl-1"></i>
+                                </button>
+
+                                <div class="dropdown-menu absolute right-0 w-56 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50">
+                                    <div class="px-4 py-2.5 bg-gray-50 border-b border-gray-100 md:hidden">
+                                        <p class="text-xs text-gray-400">Tài khoản</p>
+                                        <p class="text-sm font-bold text-gray-800">@username</p>
+                                    </div>
+                                    @if (isChuTro)
+                                    {
+                                        <a asp-controller="Profile" asp-action="Index1" class="flex items-center px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600 transition-all">
+                                            <i class="fas fa-id-card w-4 mr-2.5 text-blue-500"></i> Thông tin cá nhân
+                                        </a>
+                                        <a asp-controller="Profile" asp-action="ChangePassword1" class="flex items-center px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-yellow-600 transition-all">
+                                            <i class="fas fa-key w-4 mr-2.5 text-yellow-500"></i> Đổi mật khẩu
+                                        </a>
+                                        <a asp-controller="TaiKhoan" asp-action="CapNhatNganHang" class="flex items-center px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-green-600 transition-all">
+                                            <i class="fas fa-university w-4 mr-2.5 text-green-500"></i> Số tài khoản ngân hàng
+                                        </a>
+                                        <div class="border-t border-gray-100 my-1"></div>
+                                    }
+                                    <a asp-controller="Login" asp-action="Logout" class="flex items-center px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 font-medium transition-all">
+                                        <i class="fas fa-sign-out-alt w-4 mr-2.5"></i> Đăng xuất
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <main class="p-4 lg:p-6 pb-20">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    }
+    else if (isKhach)
+    {
+        <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+            <nav class="bg-white shadow-lg sticky top-0 z-50">
+                <div class="container mx-auto px-4 py-3">
+                    <div class="flex justify-between items-center flex-wrap gap-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-home text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-800">@ViewData["Title"]</h1>
+                                <p class="text-sm text-gray-500">Chào mừng bạn trở lại, @username</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-4 pr-4 md:pr-6">
+                            <a asp-controller="KhachHang" asp-action="Dashboard" class="text-sm text-gray-600 hover:text-blue-600">Dashboard</a>
+                            <a asp-controller="KhachHang" asp-action="HopDongCuaToi" class="text-sm text-gray-600 hover:text-blue-600">Hợp đồng</a>
+                            <a asp-controller="KhachHang" asp-action="HoaDonCuaToi" class="text-sm text-gray-600 hover:text-blue-600">Hóa đơn</a>
+                            <a asp-controller="YeuCauSuaChua" asp-action="TaoYeuCau" class="text-sm text-orange-600 hover:text-orange-700">Yêu cầu sửa chữa</a>
+                            <a asp-controller="YeuCauSuaChua" asp-action="YeuCauCuaToi" class="text-sm text-gray-600 hover:text-blue-600">Yêu cầu của tôi</a>
+                            <a asp-controller="KhachHang" asp-action="DoiMatKhau" class="text-sm text-gray-600 hover:text-blue-600">Đổi mật khẩu</a>
+
+                            <div class="relative" id="notificationWrapper">
+                                <button id="bellButton" class="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors focus:outline-none relative">
+                                    <i class="fas fa-bell text-xl"></i>
+                                    <span id="badgeCount" class="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[20px] h-[20px] flex items-center justify-center hidden px-1 border-2 border-white shadow-sm">0</span>
+                                </button>
+                                <div id="bellDropdown" class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl hidden z-50 border border-gray-100 overflow-hidden">
+                                    <div class="p-4 bg-gray-50 border-b flex justify-between items-center">
+                                        <h3 class="font-bold text-gray-700">Thông báo <span id="header-unread-count" class="text-blue-500">(0)</span></h3>
+                                        <button id="markAllRead" class="text-xs text-blue-500 hover:underline">Đánh dấu đã đọc</button>
+                                    </div>
+                                    <div id="listThongBao" class="max-h-[60vh] overflow-y-auto bg-white">
+                                        <div class="p-8 text-center text-gray-400">Đang tải...</div>
+                                    </div>
+                                    <div class="p-3 text-center border-t bg-gray-50">
+                                        <a href="@Url.Action("Index", "ThongBao")" class="text-sm text-gray-600 hover:text-blue-600">Xem tất cả</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a asp-controller="Login" asp-action="Logout" class="text-sm text-red-500 hover:text-red-700"><i class="fas fa-sign-out-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="container mx-auto px-4 py-6">
+                @RenderBody()
+            </div>
+        </div>
+    }
+    
+    else
+    {
+        <div class="container mx-auto px-4 py-8">
+            @RenderBody()
+        </div>
+    }
+
+    <div id="notificationModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden transform scale-95 transition-all duration-300 max-h-[90vh] flex flex-col relative">
+
+            <button onclick="closeNotificationModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 p-2 rounded-full border border-slate-200 shadow-sm z-50 focus:outline-none transition-all">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+
+            <div id="modalContainer" class="overflow-y-auto p-2 sm:p-4 flex-1 bg-slate-50/50">
+                <div class="p-12 text-center text-slate-400"><i class="fas fa-circle-notch fa-spin mr-2"></i>Đang tải dữ liệu chi tiết...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @Html.AntiForgeryToken()
+
+    <script>
+        function loadThongBao() {
+        fetch('/ThongBao/GetList')
+        .then(res => res.json())
+        .then(data => {
+        const badge = document.getElementById('badgeCount');
+        const headerCount = document.getElementById('header-unread-count');
+        const list = document.getElementById('listThongBao');
+        if (data && data.length > 0) {
+        const unreadCount = data.filter(x => !x.daXem).length;
+        if (unreadCount > 0) {
+        badge.classList.remove('hidden');
+        badge.innerText = unreadCount > 99 ? '99+' : unreadCount;
+        headerCount.innerText = `(${unreadCount} mới)`;
+        } else {
+        badge.classList.add('hidden');
+        headerCount.innerText = `(0 mới)`;
+        }
+        list.innerHTML = data.map(tb => {
+        let iconClass = 'fa-bell text-blue-500';
+        if (tb.loai === 'success') iconClass = 'fa-check-circle text-green-500';
+        const bgClass = tb.daXem ? 'bg-white' : 'bg-blue-50';
+        const blueDot = !tb.daXem ? `<div class="w-2 h-2 bg-blue-500 rounded-full"></div>` : '';
+        // KIỂM TRA: Nếu là thông báo khảo sát thì khóa click
+        if (tb.tieuDe && tb.tieuDe.toLowerCase().includes('khảo sát')) {
+        return `<div class="p-3 border-b ${bgClass} cursor-default opacity-75"><div class="flex items-start gap-3"><i class="fas ${iconClass} mt-1"></i><div class="flex-1"><p class="text-sm font-medium">${tb.tieuDe}</p><p class="text-xs text-gray-500">${tb.noiDung}</p></div>${blueDot}</div></div>`;
+        }
+        return `
+        <div class="p-3 border-b hover:bg-gray-50 cursor-pointer ${bgClass}" onclick="viewNotification('${tb.id}', '${tb.duongDan}')">
+        <div class="flex items-start gap-3">
+        <i class="fas ${iconClass} mt-1"></i>
+        <div class="flex-1">
+        <p class="text-sm font-medium">${tb.tieuDe}</p>
+        <p class="text-xs text-gray-500">${tb.noiDung}</p>
+        <p class="text-xs text-gray-400 mt-1">${tb.ngayTao}</p>
+        </div>
+        ${blueDot}
+        </div>
+        </div>
+        `;
+        }).join('');
+        } else {
+        badge.classList.add('hidden');
+        headerCount.innerText = `(0 mới)`;
+        list.innerHTML = '<div class="p-4 text-center text-gray-400">Chưa có thông báo</div>';
+        }
+        });
+        }
+
+        window.viewNotification = function(id, link) {
+        if (id) {
+        fetch(`/ThongBao/MarkAsRead?id=${id}`, { method: 'POST' }).then(() => { loadThongBao(); });
+        }
+
+        if (link) {
+        openNotificationModal(link);
+        }
+        };
+
+        // BỘ LỌC HOÀN HẢO TOÀN DỰ ÁN: Tự động giữ lại phần ruột, loại bỏ 100% Navbar, Sidebar thừa kế từ Server
+        function openNotificationModal(url) {
+        const modal = document.getElementById('notificationModal');
+        const container = document.getElementById('modalContainer');
+
+        container.innerHTML = '<div class="p-12 text-center text-slate-400"><i class="fas fa-circle-notch fa-spin mr-2"></i>Đang tải dữ liệu chi tiết...</div>';
+
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.firstElementChild.classList.remove('scale-95');
+
+        fetch(url, {
+        headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+        }
+        })
+        .then(res => {
+        if(!res.ok) throw new Error("Không thể tải trang");
+        return res.text();
+        })
+        .then(html => {
+        // Tạo một cây DOM ảo từ chuỗi HTML nhận về để bóc tách thông minh
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        // Thuật toán quét đa tầng: Tìm đúng phân vùng ruột (Hóa đơn, Hợp đồng, Sửa chữa của cả Khách lẫn Chủ)
+        const mainContent = doc.querySelector('.max-w-4xl') ||
+        doc.querySelector('.max-w-3xl') ||
+        doc.querySelector('#hoaDon') ||
+        doc.querySelector('main') ||
+        doc.body;
+
+        if (mainContent) {
+        // Sao chép vùng ruột sạch
+        const cleanHtml = mainContent.cloneNode(true);
+
+        // Quét dọn lần cuối: Xóa bỏ các thanh điều hướng lỡ nằm lọt vào vùng này
+        const navHeader = cleanHtml.querySelector('nav') || cleanHtml.querySelector('.bg-white.shadow-lg');
+        if (navHeader) navHeader.remove();
+
+        container.innerHTML = cleanHtml.outerHTML;
+        } else {
+        container.innerHTML = html;
+        }
+        })
+        .catch(err => {
+        container.innerHTML = '<div class="p-8 text-center text-red-500"><i class="fas fa-exclamation-circle mr-2"></i>Không thể tải thông tin chi tiết.</div>';
+        });
+        }
+
+        function closeNotificationModal() {
+        const modal = document.getElementById('notificationModal');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modal.firstElementChild.classList.add('scale-95');
+        }
+
+        document.getElementById('notificationModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+        closeNotificationModal();
+        }
+        });
+
+       
+        document.addEventListener('DOMContentLoaded', function() {
+
+        
+        // 1. LOGIC CHUÔNG THÔNG BÁO ĐÃ KHÓA KHẢO SÁT
+       
+        const bellBtn = document.getElementById('bellButton');
+        const dropdown = document.getElementById('bellDropdown');
+        const wrapper = document.getElementById('notificationWrapper');
+
+        if (bellBtn && wrapper) {
+        bellBtn.onclick = (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('hidden');
+        if (!dropdown.classList.contains('hidden')) loadThongBao();
+        };
+        document.onclick = (e) => { if (!wrapper.contains(e.target)) dropdown.classList.add('hidden'); };
+        loadThongBao();
+        setInterval(loadThongBao, 30000);
+        }
+
+        // Xử lý nút kích hoạt Đánh dấu tất cả đã đọc
+        const markAllReadBtn = document.getElementById('markAllRead');
+        if (markAllReadBtn) {
+        markAllReadBtn.onclick = function(e) {
+        e.preventDefault();
+        fetch('/ThongBao/DanhDauTatCa', { method: 'POST' })
+        .then(res => {
+        if (res.ok) {
+        loadThongBao();
+        }
+        })
+        .catch(err => console.error("Lỗi đánh dấu đã đọc:", err));
+        };
+        }
+
+       
+        // 2. LOGIC ĐÓNG MỞ SIDEBAR CHO ĐIỆN THOẠI
+        
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        if (mobileMenuBtn && sidebar) {
+        // Mở Sidebar
+        mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sidebar.classList.remove('-translate-x-full');
+        if(sidebarOverlay) sidebarOverlay.classList.remove('hidden');
+        });
+
+        // Hàm đóng chung
+        const closeMenu = () => {
+        sidebar.classList.add('-translate-x-full');
+        if(sidebarOverlay) sidebarOverlay.classList.add('hidden');
+        };
+
+        // Đóng khi bấm nút X
+        if (closeSidebarBtn) {
+        closeSidebarBtn.addEventListener('click', closeMenu);
+        }
+
+        // Đóng khi bấm ra ngoài phần nền mờ
+        if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeMenu);
+        }
+        }
+        });
+    
+
+        
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        // Mở menu
+        mobileMenuBtn.onclick = (e) => {
+        e.stopPropagation();
+        sidebar.classList.remove('-translate-x-full');
+        };
+
+        // Đóng menu
+        closeSidebarBtn.onclick = () => {
+        sidebar.classList.add('-translate-x-full');
+        };
+
+        // Đóng khi bấm ra ngoài
+        document.addEventListener('click', (e) => {
+        if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target) && window.innerWidth < 1024) {
+        sidebar.classList.add('-translate-x-full');
+        }
+        });
+    
+    </script>
+</body>
+</html>
