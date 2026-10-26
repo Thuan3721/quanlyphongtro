@@ -1,4 +1,4 @@
-# quanlyphongtro
+
 # Hệ Thống Quản Lý Phòng Trọ
 
 Website quản lý và đăng tin cho thuê phòng trọ, xây dựng bằng ASP.NET Core.
